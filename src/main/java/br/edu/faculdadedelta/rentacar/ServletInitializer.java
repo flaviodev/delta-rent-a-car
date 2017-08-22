@@ -1,4 +1,4 @@
-package br.edu.faculdadedelta.posexemplofdsdev;
+package br.edu.faculdadedelta.rentacar;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(PosExemploFdsdevApplication.class);
+		return application.sources(DeltaRentACarApplication.class);
 	}
 
 }

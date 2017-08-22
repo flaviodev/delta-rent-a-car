@@ -8,21 +8,19 @@ import javax.persistence.Id;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class Motorista extends Model<Long> {
+public class Motorista extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -1466345548885235261L;
-
 	
 	public Motorista() {}
 
 	public Motorista(Long id, String nome, String cpf, String cnh) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.cnh = cnh;
 	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -36,15 +34,16 @@ public class Motorista extends Model<Long> {
 	@NotBlank(message = "O campo CNH não pode ser vazio!")
 	private String cnh;
 
-
+	@Override
 	public Long getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -69,10 +68,13 @@ public class Motorista extends Model<Long> {
 		this.cnh = cnh;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Motorista [id=" + id + ", nome=" + nome + "]";
 	}
 	
+	@Override
+	public String getNomeEntidade() {
+		return "Motorista";
+	}
 }

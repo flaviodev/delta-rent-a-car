@@ -3,18 +3,14 @@ package br.edu.faculdadedelta.rentacar.model;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public abstract class Model<ID extends Serializable> implements Serializable {
-
-	public Model() {} 
-
-	public Model(ID id) {
-		setId(id);
-	}
+public abstract class EntidadeBase<ID extends Serializable> implements Serializable {
 
 	public abstract ID getId();
 
 	public abstract void setId(ID id);
 
+	public abstract String getNomeEntidade();
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -32,7 +28,7 @@ public abstract class Model<ID extends Serializable> implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		@SuppressWarnings("rawtypes")
-		Model other = (Model) obj;
+		EntidadeBase other = (EntidadeBase) obj;
 		if (getId() == null) {
 			if (other.getId() != null)
 				return false;

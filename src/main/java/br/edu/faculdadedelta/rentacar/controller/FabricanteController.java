@@ -1,4 +1,4 @@
-package br.edu.faculdadedelta.posexemplofdsdev.controller;
+package br.edu.faculdadedelta.rentacar.controller;
 
 import java.util.List;
 
@@ -6,62 +6,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.edu.faculdadedelta.posexemplofdsdev.model.Produto;
-import br.edu.faculdadedelta.posexemplofdsdev.model.type.StatusDoProduto;
-import br.edu.faculdadedelta.posexemplofdsdev.repository.ProdutoRepository;
+import br.edu.faculdadedelta.rentacar.model.Fabricante;
+import br.edu.faculdadedelta.rentacar.repository.FabricanteRepository;
 
 @Controller
-@RequestMapping("/produtos")
-public class ProdutoController {
+@RequestMapping("/fabricantes")
+public class FabricanteController {
 
 	@Autowired
-	private ProdutoRepository repository;
+	private FabricanteRepository repository;
 	
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public ModelAndView novo() {
 
-		ModelAndView mv = new ModelAndView("produto");
-		mv.addObject(new Produto());
+		ModelAndView mv = new ModelAndView("fabricante");
+		mv.addObject(new Fabricante());
 		
 		return mv;
 	}
 	
 
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
-	public ModelAndView salvar(@Validated Produto produto, Errors errors, RedirectAttributes redirectAttributes) {
+	public ModelAndView salvar(@Validated Fabricante produto, Errors errors, RedirectAttributes redirectAttributes) {
 		
 		if(errors.hasErrors()) {
-			return new ModelAndView("produto");
+			return new ModelAndView("fabricante");
 		}
 		
 		repository.save(produto);
 		
-		redirectAttributes.addFlashAttribute("message", "Produto Salvo con sucesso!");
+		redirectAttributes.addFlashAttribute("message", "Fabricante Salvo con sucesso!");
 		
-		return new ModelAndView("redirect:/produtos/novo");
+		return new ModelAndView("redirect:/fabricantes/novo");
 	}
-
-	@ModelAttribute("todosStatusDoProtudo")
-	public StatusDoProduto[] todosStatusDoProtudo() {
-		return StatusDoProduto.values();
-	}
-	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView listar() {
 
-		ModelAndView mv = new ModelAndView("listaProduto");
+		ModelAndView mv = new ModelAndView("listaFabricante");
 		
-		List<Produto> produtos = repository.findAll();
+		List<Fabricante> fabricantes = repository.findAll();
 		
-		mv.addObject("produtos", produtos);
+		mv.addObject("fabricantes", fabricantes);
 		
 		return mv;
 	}
@@ -69,11 +61,11 @@ public class ProdutoController {
 	
 	@RequestMapping(value="/editar/{id}", method = RequestMethod.GET)
 	public ModelAndView editar(@PathVariable("id") Long id) {
-		Produto produto = repository.findOne(id);
+		Fabricante fabricante = repository.findOne(id);
 
-		ModelAndView mv = new ModelAndView("produto");
+		ModelAndView mv = new ModelAndView("fabricante");
 		
-		mv.addObject("produto", produto);
+		mv.addObject("fabricante", fabricante);
 		
 		return mv;
 	}
@@ -82,6 +74,6 @@ public class ProdutoController {
 	public ModelAndView excluir(@PathVariable("id") Long id) {
 		repository.delete(id);
 		
-		return new ModelAndView("redirect:/produtos");
+		return new ModelAndView("redirect:/fabricantes");
 	}
 }

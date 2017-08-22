@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Lista de Mototistas</title>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Lista de Motoristas</h1>
+
+			<a th:href="@{/motoristas/novo}">Novo Motorista</a>
+
+			<br/>
+			<br/>
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>CPF</th>
+						<th>CNH</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="motorista : ${motoristas}">
+						<td th:text="${motorista.id}"></td>
+						<td th:text="${motorista.nome}"></td>
+						<td th:text="${motorista.cpf}"></td>
+						<td th:text="${motorista.cnh}"></td>
+						<td>
+							<a class="btn btn-primary" th:href="@{/motoristas/editar/{id}(id = ${motorista.id})}">Editar</a>
+							<a class="btn btn-danger" th:href="@{/motoristas/excluir/{id}(id = ${motorista.id})}">Excluir</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

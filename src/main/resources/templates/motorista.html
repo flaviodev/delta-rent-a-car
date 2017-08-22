@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Cadastro de Motorista</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+	</head>
+	
+	<body>
+		<div class="container">
+			<h1>Cadastro de Motorista</h1>
+	
+			<a th:href="@{/motoristas}">Listar Motoristas</a>
+	
+			<br/>
+			<br/>
+			
+			<form  class="container" action="/motoristas/salvar" method="POST" th:object="${motorista}">
+				<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+					<div th:each="detailedError: ${#fields.detailedErrors()}">
+						<span th:text="${detailedError.message}"></span>
+					</div>
+				</div>
+	
+				<div class="alert alert-success" th:if="${!#strings.isEmpty(message)}">
+					<span th:text="${message}"></span>
+				</div>
+	
+				<br/>
+	
+				<input type="hidden" th:field="*{id}"/>
+	
+				<div class="form-group">
+					<label for="nome">Nome:</label>
+					<input class="form-control"  type="text" th:field="*{nome}"/>
+				</div>
+	
+				<div class="form-group">
+					<label for="cpf">CPF:</label>
+					<input class="form-control"  type="text" th:field="*{cpf}"/>
+				</div>
+			
+				<div class="form-group">
+					<label for="cnh">CNH:</label>
+					<input class="form-control"  type="text" th:field="*{cnh}"/>
+				</div>
+			
+			
+				<button type="submit" class="btn btn-primary">Salvar</button>
+			</form>
+		</div>
+	</body>
+</html>

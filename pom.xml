@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>br.edu.faculdadedelta</groupId>
-	<artifactId>pos-exemplo-fdsdev</artifactId>
+	<artifactId>delta-rent-a-car</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>pos-exemplo-fdsdev</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Delta Rent a Car</name>
+	<description>Projeto referente trabalho no módulo de Spring MVC</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -68,6 +68,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

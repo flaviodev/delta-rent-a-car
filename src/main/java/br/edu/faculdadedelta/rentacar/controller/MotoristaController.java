@@ -8,7 +8,7 @@ import br.edu.faculdadedelta.rentacar.repository.MotoristaRepository;
 
 @Controller
 @RequestMapping("/motoristas")
-public class MotoristaController extends AbstractCRUDController<Long, Motorista, MotoristaRepository>{
+public class MotoristaController extends CRUDControllerBase<Long, Motorista, MotoristaRepository>{
 
 	@Override
 	public String getNomeControlador() {
@@ -16,22 +16,12 @@ public class MotoristaController extends AbstractCRUDController<Long, Motorista,
 	}
 	
 	@Override
-	public String getNomeEntidade() {
+	public String getNomeTemplateEdicao() {
 		return "motorista";
 	}
 	
 	@Override
-	public String getNomeListaEntidade() {
+	public String getNomeTemplateListagem() {
 		return "listaMotorista";
-	}
-
-	@Override
-	public String getNomeMensagemEntidade() {
-		return "Motorista";
-	}
-	
-	@Override
-	public Motorista getInstanciaEntidade() {
-		return new Motorista();
 	}
 }

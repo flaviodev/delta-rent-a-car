@@ -1,6 +1,7 @@
 package br.edu.faculdadedelta.rentacar.controller;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,34 +14,40 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.edu.faculdadedelta.rentacar.model.Model;
+import br.edu.faculdadedelta.rentacar.model.EntidadeBase;
 
 
-public abstract class AbstractCRUDController<ID extends Serializable, M extends Model<ID>, R extends JpaRepository<M, ID>> {
+public abstract class CRUDControllerBase<ID extends Serializable, E extends EntidadeBase<ID>, R extends JpaRepository<E, ID>> {
 
 	@Autowired
 	private R repository;
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public ModelAndView novo() {
-
-		ModelAndView mv = new ModelAndView(getNomeEntidade());
-		mv.addObject(getInstanciaEntidade());
+		
+		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
+		
+		try {
+			mv.addObject(((Class<E>)((ParameterizedType)this.getClass().
+				       getGenericSuperclass()).getActualTypeArguments()[1]).newInstance());
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		
 		return mv;
 	}
-	
 
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
-	public ModelAndView salvar(@Validated M entidade, Errors errors, RedirectAttributes redirectAttributes) {
+	public ModelAndView salvar(@Validated E entidade, Errors errors, RedirectAttributes redirectAttributes) {
 		
 		if(errors.hasErrors()) {
-			return new ModelAndView(getNomeEntidade());
+			return new ModelAndView(getNomeTemplateEdicao());
 		}
 		
 		repository.save(entidade);
 		
-		redirectAttributes.addFlashAttribute("message", getNomeMensagemEntidade() + " Salvo com sucesso!");
+		redirectAttributes.addFlashAttribute("message", entidade.getNomeEntidade() + " Salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/"+getNomeControlador()+"/novo");
 	}
@@ -48,9 +55,9 @@ public abstract class AbstractCRUDController<ID extends Serializable, M extends 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView listar() {
 
-		ModelAndView mv = new ModelAndView(getNomeListaEntidade());
+		ModelAndView mv = new ModelAndView(getNomeTemplateListagem());
 		
-		List<M> entidades = repository.findAll();
+		List<E> entidades = repository.findAll();
 		
 		mv.addObject(getNomeControlador(), entidades);
 		
@@ -60,11 +67,11 @@ public abstract class AbstractCRUDController<ID extends Serializable, M extends 
 	
 	@RequestMapping(value="/editar/{id}", method = RequestMethod.GET)
 	public ModelAndView editar(@PathVariable("id") ID id) {
-		M entidade = repository.findOne(id);
+		E entidade = repository.findOne(id);
 
-		ModelAndView mv = new ModelAndView(getNomeEntidade());
+		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
-		mv.addObject(getNomeEntidade(), entidade);
+		mv.addObject(getNomeTemplateEdicao(), entidade);
 		
 		return mv;
 	}
@@ -78,11 +85,7 @@ public abstract class AbstractCRUDController<ID extends Serializable, M extends 
 	
 	public abstract String getNomeControlador();
 	
-	public abstract String getNomeEntidade();
+	public abstract String getNomeTemplateEdicao();
 	
-	public abstract String getNomeListaEntidade();
-	
-	public abstract String getNomeMensagemEntidade();
-	
-	public abstract M getInstanciaEntidade();
+	public abstract String getNomeTemplateListagem();
 }

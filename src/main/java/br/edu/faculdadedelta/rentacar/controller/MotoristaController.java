@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.faculdadedelta.rentacar.model.Motorista;
-import br.edu.faculdadedelta.rentacar.model.type.Categoria;
 import br.edu.faculdadedelta.rentacar.model.type.Sexo;
 import br.edu.faculdadedelta.rentacar.repository.MotoristaRepository;
 
@@ -40,7 +39,7 @@ public class MotoristaController extends CRUDControllerBase<Long, Motorista, Mot
 	
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id","nome","cpf", "cnh", "descricaoSexo"};
+		return new String[]{"id","nome","cpf", "cnh", "descricaoDoSexo"};
 	}
 	
 	@ModelAttribute("todosSexos")

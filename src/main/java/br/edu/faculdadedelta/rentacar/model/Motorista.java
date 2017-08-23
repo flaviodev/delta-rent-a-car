@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import br.edu.faculdadedelta.rentacar.model.type.Categoria;
 import br.edu.faculdadedelta.rentacar.model.type.Sexo;
 
 @Entity
@@ -86,7 +85,7 @@ public class Motorista extends EntidadeBase<Long> {
 		this.sexo = sexo;
 	}
 
-	public String getDescricaoSexo() {
+	public String getDescricaoDoSexo() {
 		return sexo!=null ? sexo.getDescricao() : null;
 	}
 	

@@ -44,12 +44,12 @@ public class ModeloController extends CRUDControllerBase<Long, Modelo, ModeloRep
 	
 	@Override
 	public String[] getColunasListagem() {
-		return new String[]{"ID","Descrição", "Categoria","Fabricante"};
+		return new String[]{"ID","Descrição", "Categoria", "Fabricante"};
 	}
 	
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id","descricao","descricaoCategoria", "nomeFabricante"};
+		return new String[]{"id","descricao","descricaoDaCategoria", "nomeDoFabricante"};
 	}
 	
 	@ModelAttribute("todasCategorias")

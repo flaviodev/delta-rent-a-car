@@ -79,8 +79,8 @@ public class Carro extends EntidadeBase<Long> {
 		this.modelo = modelo;
 	}
 
-	public String getDescricaoModelo() {
-		return modelo!=null ? modelo.getNomeFabricante() + " - " + modelo.getDescricao() : null;
+	public String getDescricaoDoModelo() {
+		return modelo!=null ? modelo.getNomeDoFabricante() + " - " + modelo.getDescricao() : null;
 	}
 
 	@Override

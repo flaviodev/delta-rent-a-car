@@ -77,11 +77,11 @@ public class Modelo extends EntidadeBase<Long> {
 		this.fabricante = fabricante;
 	}
 
-	public String getDescricaoCategoria() {
+	public String getDescricaoDaCategoria() {
 		return categoria!=null ? categoria.getDescricao() : null; 
 	}
 
-	public String getNomeFabricante() {
+	public String getNomeDoFabricante() {
 		return fabricante!=null ? fabricante.getNome() : null; 
 	}
 	

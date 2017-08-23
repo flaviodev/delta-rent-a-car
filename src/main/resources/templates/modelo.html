@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Cadastro de Modelo</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+	</head>
+	
+	<body>
+		<div class="container">
+			<h1>Cadastro de Modelo</h1>
+	
+			<a th:href="@{/modelos}">Listar Modelos</a>
+	
+			<br/>
+			<br/>
+			
+			<form  class="container" action="/modelos/salvar" method="POST" th:object="${modelo}">
+				<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+					<div th:each="detailedError: ${#fields.detailedErrors()}">
+						<span th:text="${detailedError.message}"></span>
+					</div>
+				</div>
+	
+				<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+					<span th:text="${mensagem}"></span>
+				</div>
+	
+				<br/>
+	
+				<input type="hidden" th:field="*{id}"/>
+	
+				<div class="form-group">
+					<label for="descricao">Descrição:</label>
+					<input class="form-control"  type="text" th:field="*{descricao}"/>
+				</div>
+	
+				<div class="form-group">
+					<label for="categoria">Categoria:</label>
+					<select class="custom-select"  th:field="*{categoria}">
+						<option th:each="categoria : ${todasCategorias}" th:text="${categoria.descricao}" th:value="${categoria}"></option>
+					</select>
+				</div>
+			
+				<div class="form-group">
+					<label for="fabricante">Fabricante:</label>
+					<select class="custom-select"  th:field="*{fabricante}">
+						<option th:each="fabricante : ${todosFabricantes}" th:text="${fabricante.nome}" th:value="${fabricante.id}"></option>
+					</select>
+				</div>
+			
+				<button type="submit" class="btn btn-success">Salvar</button>
+			</form>
+		</div>
+	</body>
+</html>

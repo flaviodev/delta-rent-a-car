@@ -60,10 +60,4 @@ public class Fabricante extends EntidadeBase<Long> {
 	public String toString() {
 		return "Fabricante [id=" + id + ", nome=" + nome + "]";
 	}
-
-	@Override
-	public String getNomeEntidade() {
-		return "Fabricante";
-	}
-	
 }

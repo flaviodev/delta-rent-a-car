@@ -17,7 +17,7 @@ public class MotoristaController extends CRUDControllerBase<Long, Motorista, Mot
 	
 	@Override
 	public String getNomeTemplateEdicao() {
-		return "cadastroMotorista";
+		return "motorista";
 	}
 		
 	@Override
@@ -39,4 +39,5 @@ public class MotoristaController extends CRUDControllerBase<Long, Motorista, Mot
 	public String[] getAtributosListagem() {
 		return new String[]{"id","nome","cpf", "cnh"};
 	}
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.faculdadedelta.rentacar.model.EntidadeBase;
+import br.edu.faculdadedelta.rentacar.model.Fabricante;
 
 
 public abstract class CRUDControllerBase<ID extends Serializable, E extends EntidadeBase<ID>, R extends JpaRepository<E, ID>> {
@@ -29,12 +30,17 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 		
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
+		E entidade = null;
+		
 		try {
-			mv.addObject("entidade", ((Class<E>)((ParameterizedType)this.getClass().
-				       getGenericSuperclass()).getActualTypeArguments()[1]).newInstance());
+			entidade = ((Class<E>)((ParameterizedType)this.getClass().
+				       getGenericSuperclass()).getActualTypeArguments()[1]).newInstance();
+			
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException("Erro ao instanciar a entidade");
 		}
+		
+		mv.addObject(getNomeTemplateEdicao(), entidade);
 		
 		return mv;
 	}
@@ -43,7 +49,9 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 	public ModelAndView salvar(@Validated E entidade, Errors errors, RedirectAttributes redirectAttributes) {
 		
 		if(errors.hasErrors()) {
-			return new ModelAndView(getNomeTemplateEdicao());
+			ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
+			
+			return mv;
 		}
 		
 		repository.save(entidade);
@@ -52,6 +60,7 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 		
 		return new ModelAndView("redirect:/"+getNomeControlador()+"/novo");
 	}
+	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView listar() {
@@ -71,7 +80,7 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
-		mv.addObject("entidade", entidade);
+		mv.addObject(getNomeTemplateEdicao(), entidade);
 		
 		return mv;
 	}
@@ -122,4 +131,5 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 	public abstract String[] getColunasListagem();
 	
 	public abstract String[] getAtributosListagem();
+	
 }

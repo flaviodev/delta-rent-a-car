@@ -34,5 +34,6 @@ public abstract class EntidadeBase<ID extends Serializable> implements Serializa
 			return false;
 		return true;
 	}
+
 	
 }

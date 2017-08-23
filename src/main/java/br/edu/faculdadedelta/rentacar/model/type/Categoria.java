@@ -1,7 +1,7 @@
 package br.edu.faculdadedelta.rentacar.model.type;
 
 public enum Categoria {
-	HATCH("Hash"), 
+	HATCH("Hatch"), 
 	SEDAN("Sedan"), 
 	UTILITARIO("Utilitário"),
 	ESPORTIVO("Esportivo");

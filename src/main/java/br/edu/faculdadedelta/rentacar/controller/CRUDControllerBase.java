@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,10 +30,10 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
 		try {
-			mv.addObject(((Class<E>)((ParameterizedType)this.getClass().
+			mv.addObject("entidade", ((Class<E>)((ParameterizedType)this.getClass().
 				       getGenericSuperclass()).getActualTypeArguments()[1]).newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+			throw new RuntimeException("Erro ao instanciar a entidade");
 		}
 		
 		return mv;
@@ -47,7 +48,7 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 		
 		repository.save(entidade);
 		
-		redirectAttributes.addFlashAttribute("message", entidade.getNomeEntidade() + " Salvo com sucesso!");
+		redirectAttributes.addFlashAttribute("mensagem", "Cadastro de " + getNomeEntidade() + " salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/"+getNomeControlador()+"/novo");
 	}
@@ -55,15 +56,14 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView listar() {
 
-		ModelAndView mv = new ModelAndView(getNomeTemplateListagem());
+		ModelAndView mv = new ModelAndView("listaRegistros");
 		
 		List<E> entidades = repository.findAll();
 		
-		mv.addObject(getNomeControlador(), entidades);
+		mv.addObject("entidades", entidades);
 		
 		return mv;
 	}
-
 	
 	@RequestMapping(value="/editar/{id}", method = RequestMethod.GET)
 	public ModelAndView editar(@PathVariable("id") ID id) {
@@ -71,7 +71,7 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
-		mv.addObject(getNomeTemplateEdicao(), entidade);
+		mv.addObject("entidade", entidade);
 		
 		return mv;
 	}
@@ -83,9 +83,43 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 		return new ModelAndView("redirect:/"+getNomeControlador());
 	}
 	
+	@ModelAttribute("controlador")
 	public abstract String getNomeControlador();
 	
 	public abstract String getNomeTemplateEdicao();
+
+	@ModelAttribute("nomeEntidade")
+	public abstract String getNomeEntidade();
+		
+	@ModelAttribute("nomeEntidadePlural")
+	public abstract String getNomeEntidadePlural();
+
 	
-	public abstract String getNomeTemplateListagem();
+	@ModelAttribute("colunas")
+	public final String[] colunas() {
+		String[] colunasListagem = getColunasListagem();
+		
+		if(colunasListagem == null) {
+			throw new RuntimeException("As colunas para listagem do devem ser informadas");
+		}
+		
+		String[] colunas = new String[colunasListagem.length+1];
+		
+		for(int i = 0; i<colunasListagem.length; i++) {
+			colunas[i] = colunasListagem[i];
+		}
+		
+		colunas[colunasListagem.length] = "Operações";
+		
+		return colunas;
+	}
+
+	@ModelAttribute("atributos")
+	public final String[] atributos() {
+		return getAtributosListagem();
+	}
+	
+	public abstract String[] getColunasListagem();
+	
+	public abstract String[] getAtributosListagem();
 }

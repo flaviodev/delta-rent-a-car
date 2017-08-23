@@ -52,7 +52,7 @@ public class CarroController extends CRUDControllerBase<Long, Carro, CarroReposi
 	}
 	
 	@ModelAttribute("todosModelos")
-	public List<Modelo> todosMOdelos() {
+	public List<Modelo> todosModelos() {
 		return modeloRepository.findAll();
 	}
 	

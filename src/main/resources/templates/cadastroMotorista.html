@@ -16,15 +16,15 @@
 			<br/>
 			<br/>
 			
-			<form  class="container" action="/motoristas/salvar" method="POST" th:object="${motorista}">
+			<form  class="container" action="/motoristas/salvar" method="POST" th:object="${entidade}">
 				<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
 					<div th:each="detailedError: ${#fields.detailedErrors()}">
 						<span th:text="${detailedError.message}"></span>
 					</div>
 				</div>
 	
-				<div class="alert alert-success" th:if="${!#strings.isEmpty(message)}">
-					<span th:text="${message}"></span>
+				<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+					<span th:text="${mensagem}"></span>
 				</div>
 	
 				<br/>
@@ -47,7 +47,7 @@
 				</div>
 			
 			
-				<button type="submit" class="btn btn-primary">Salvar</button>
+				<button type="submit" class="btn btn-success">Salvar</button>
 			</form>
 		</div>
 	</body>

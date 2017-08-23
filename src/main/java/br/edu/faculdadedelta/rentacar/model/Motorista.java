@@ -1,11 +1,17 @@
 package br.edu.faculdadedelta.rentacar.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+
+import br.edu.faculdadedelta.rentacar.model.type.Categoria;
+import br.edu.faculdadedelta.rentacar.model.type.Sexo;
 
 @Entity
 public class Motorista extends EntidadeBase<Long> {
@@ -34,6 +40,10 @@ public class Motorista extends EntidadeBase<Long> {
 	@NotBlank(message = "O campo CNH não pode ser vazio!")
 	private String cnh;
 
+	@NotNull(message = "O campo sexo não pode ser vazio!")
+	@Enumerated(EnumType.STRING)
+	private Sexo sexo;
+	
 	@Override
 	public Long getId() {
 		return id;
@@ -68,6 +78,18 @@ public class Motorista extends EntidadeBase<Long> {
 		this.cnh = cnh;
 	}
 
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+
+	public String getDescricaoSexo() {
+		return sexo!=null ? sexo.getDescricao() : null;
+	}
+	
 	@Override
 	public String toString() {
 		return "Motorista [id=" + id + ", nome=" + nome + "]";

@@ -1,9 +1,12 @@
 package br.edu.faculdadedelta.rentacar.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.faculdadedelta.rentacar.model.Motorista;
+import br.edu.faculdadedelta.rentacar.model.type.Categoria;
+import br.edu.faculdadedelta.rentacar.model.type.Sexo;
 import br.edu.faculdadedelta.rentacar.repository.MotoristaRepository;
 
 @Controller
@@ -32,12 +35,17 @@ public class MotoristaController extends CRUDControllerBase<Long, Motorista, Mot
 	
 	@Override
 	public String[] getColunasListagem() {
-		return new String[]{"ID","Nome","CPF", "CNH"};
+		return new String[]{"ID","Nome","CPF", "CNH", "Sexo"};
 	}
 	
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id","nome","cpf", "cnh"};
+		return new String[]{"id","nome","cpf", "cnh", "descricaoSexo"};
+	}
+	
+	@ModelAttribute("todosSexos")
+	public Sexo[] todosSexos() {
+		return Sexo.values();
 	}
 
 }

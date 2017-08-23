@@ -19,11 +19,26 @@ public class FabricanteController extends CRUDControllerBase<Long, Fabricante, F
 	
 	@Override
 	public String getNomeTemplateEdicao() {
-		return "fabricante";
+		return "cadastroFabricante";
+	}
+
+	@Override
+	public String getNomeEntidade() {
+		return "Fabricante";
 	}
 	
 	@Override
-	public String getNomeTemplateListagem() {
-		return "listaFabricante";
+	public String getNomeEntidadePlural() {
+		return "Fabricantes";
+	}
+	
+	@Override
+	public String[] getColunasListagem() {
+		return new String[]{"ID","Nome","Descrição"};
+	}
+	
+	@Override
+	public String[] getAtributosListagem() {
+		return new String[]{"id","nome","descricao"};
 	}
 }

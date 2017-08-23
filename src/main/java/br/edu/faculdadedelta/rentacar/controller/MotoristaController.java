@@ -17,11 +17,26 @@ public class MotoristaController extends CRUDControllerBase<Long, Motorista, Mot
 	
 	@Override
 	public String getNomeTemplateEdicao() {
-		return "motorista";
+		return "cadastroMotorista";
+	}
+		
+	@Override
+	public String getNomeEntidade() {
+		return "Motorista";
 	}
 	
 	@Override
-	public String getNomeTemplateListagem() {
-		return "listaMotorista";
+	public String getNomeEntidadePlural() {
+		return "Motoristas";
+	}	
+	
+	@Override
+	public String[] getColunasListagem() {
+		return new String[]{"ID","Nome","CPF", "CNH"};
+	}
+	
+	@Override
+	public String[] getAtributosListagem() {
+		return new String[]{"id","nome","cpf", "cnh"};
 	}
 }

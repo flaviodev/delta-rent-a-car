@@ -101,7 +101,16 @@ public class Carro extends EntidadeBase<Long> {
 		texto.append(valorDaDiaria!=null ? ")" : "");
 		return texto.toString();
 	}
-	
+
+	public String getTextoApresentacaoSimplificado() {
+		StringBuilder texto = new StringBuilder("");
+		texto.append(placa!=null ? placa : "");
+		texto.append(placa!=null ? " - " : "");
+		texto.append(modelo!=null ? modelo.getTextoApresentacao() : "");
+
+		return texto.toString();
+	}
+
 	public String getDescricaoDoModelo() {
 		return modelo!=null ? modelo.getTextoApresentacao() : null;
 	}

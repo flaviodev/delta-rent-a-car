@@ -1,6 +1,7 @@
 package br.edu.faculdadedelta.rentacar.model;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +17,18 @@ import org.springframework.format.annotation.NumberFormat;
 public class Carro extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -2875674544565344461L;
+
+	private static final DecimalFormat FORMATADOR_MOEDA = new DecimalFormat("R$ #,###.00");
 	
 	public Carro() {}
+
+	public Carro(Long id, String placa, String chassi, BigDecimal valorDaDiaria, Modelo modelo) {
+		this.id = id;
+		this.placa = placa;
+		this.chassi = chassi;
+		this.valorDaDiaria = valorDaDiaria;
+		this.modelo = modelo;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,7 +96,9 @@ public class Carro extends EntidadeBase<Long> {
 		texto.append(placa!=null ? placa : "");
 		texto.append(placa!=null ? " - " : "");
 		texto.append(modelo!=null ? modelo.getTextoApresentacao() : "");
-		
+		texto.append(valorDaDiaria!=null ? " (Diária  " : "");
+		texto.append(valorDaDiaria!=null ? FORMATADOR_MOEDA.format(valorDaDiaria) : "");
+		texto.append(valorDaDiaria!=null ? ")" : "");
 		return texto.toString();
 	}
 	

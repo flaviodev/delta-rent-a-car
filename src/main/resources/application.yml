@@ -1,2 +1,12 @@
 server:
   port: 8080
+  
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rentacar
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+    platform: org.hibernate.dialect.PostgreSQLDialect
+
+      

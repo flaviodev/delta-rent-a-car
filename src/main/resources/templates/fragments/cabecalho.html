@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+	<head th:fragment="header">
+		<meta charset="UTF-8"/>
+		<title>index</title>
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+		<link rel="stylesheet" th:href="@{/css/style.css}"/>
+	</head>
+	
+	
+	
+	<nav th:fragment="menu" class="navbar navbar-inverse bg-primary navbar-toggleable-md fixed-top">
+	  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <a class="navbar-brand" href="/">Delta rent-a-car</a>
+	
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="/fabricantes">Fabricantes</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/modelos">Modelos</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/carros">Carros</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/motoristas">Motoristas</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/locacoes">Locações</a>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>  
+
+</html>

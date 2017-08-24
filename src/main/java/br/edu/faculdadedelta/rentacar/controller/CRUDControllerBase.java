@@ -36,4 +36,8 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 		return "listaRegistros";
 	}
 	
+	protected String getMensagemDeSucessoSalvar() {
+		return "Cadastro de " + getNomeEntidade() + " salvo com sucesso!";
+	}
+	
 }

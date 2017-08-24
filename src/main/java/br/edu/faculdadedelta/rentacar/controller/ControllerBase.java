@@ -42,10 +42,9 @@ public abstract class ControllerBase<ID extends Serializable, E extends Entidade
 		
 		return mv;
 	}
-
+	
 	@RequestMapping(value = "/salvar", method = RequestMethod.POST)
 	public ModelAndView salvar(@Validated E entidade, Errors errors, RedirectAttributes redirectAttributes) {
-		
 		if(errors.hasErrors()) {
 			ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 			
@@ -54,11 +53,12 @@ public abstract class ControllerBase<ID extends Serializable, E extends Entidade
 		
 		repositorio.save(entidade);
 		
-		redirectAttributes.addFlashAttribute("mensagem", "Registro de " + getNomeEntidade() + " salvo com sucesso!");
+		redirectAttributes.addFlashAttribute("mensagem", getMensagemDeSucessoSalvar());
 		
+
 		return new ModelAndView("redirect:/"+getNomeControlador()+"/novo");
+
 	}
-	
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView listar() {
@@ -75,13 +75,15 @@ public abstract class ControllerBase<ID extends Serializable, E extends Entidade
 	protected final R getRepositorio() {
 		return repositorio;
 	}
-		
-	@ModelAttribute("controlador")
-	public abstract String getNomeControlador();
 	
 	protected abstract String getNomeTemplateListagem();
 	
 	protected abstract String getNomeTemplateEdicao();
+	
+	protected abstract String getMensagemDeSucessoSalvar();
+
+	@ModelAttribute("controlador")
+	public abstract String getNomeControlador();
 
 	@ModelAttribute("nomeEntidade")
 	public abstract String getNomeEntidade();

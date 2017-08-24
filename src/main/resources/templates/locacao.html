@@ -7,67 +7,98 @@
 		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 	</head>
 	
-	<body>
-		<div class="container">
-			<h1>Locação de Carro</h1>
-	
-			<a th:href="@{/locacoes}">Listar Locações</a>
-	
-			<br/>
-			<br/>
-			
-			<form  class="container" action="/locacoes/salvar" method="POST" th:object="${locacao}">
-				<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-					<div th:each="detailedError: ${#fields.detailedErrors()}">
-						<span th:text="${detailedError.message}"></span>
-					</div>
-				</div>
-	
-				<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
-					<span th:text="${mensagem}"></span>
-				</div>
-	
-				<br/>
-	
-				<input type="hidden" th:field="*{id}"/>
-
-				<div class="form-group">
-					<label for="motorista">Motorista:</label>
-					<select class="custom-select"  th:field="*{motorista}">
-						<option th:each="motorista : ${todosMotoristas}" th:text="${motorista.textoApresentacao}" th:value="${motorista.id}"></option>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<label for="carro">Carro:</label>
-					<select class="custom-select"  th:field="*{carro}">
-						<option th:each="carro : ${todosCarros}" th:text="${carro.textoApresentacao}" th:value="${carro.id}"></option>
-					</select>
-				</div>				
-	
-				<div class="form-group">
-					<label for="dataDeLocacao">Data de Locação:</label>
-					<input class="form-control"  type="text" th:field="*{dataDeLocacao}"/>
-				</div>
-
-				<div class="form-group">
-					<label for="dataDeDevolucao">Data de Devolução:</label>
-					<input class="form-control"  type="text" th:field="*{dataDeDevolucao}"/>
-				</div>
-	
-				<div class="form-group">
-					<label for="valorDaDiaria">Valor da Diária:</label>
-					<input class="form-control"  type="text" th:field="*{valorDaDiaria}"/>
-				</div>
-	
-				<div class="form-group">
-					<label for="valorTotal">Valor Total:</label>
-					<input class="form-control"  type="text" th:field="*{valorTotal}"/>
-				</div>
-					
+	<body class="container">
+  		
+  		<br/>
 		
-				<button type="submit" class="btn btn-success">Salvar</button>
-			</form>
+		<div class="card">
+
+			<h4 class="card-header">Locações</h4>
+
+			<div class="card-body">
+				<h4 class="card-title">Locação de Carro</h4>
+				
+				<br/>
+				
+				<form  class="container" action="/locacoes/salvar" method="POST" th:object="${locacao}">
+					<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
+						<div th:each="detailedError: ${#fields.detailedErrors()}">
+							<span th:text="${detailedError.message}"></span>
+						</div>
+					</div>
+		
+					<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
+						<span th:text="${mensagem}"></span>
+					</div>
+		
+		
+					<input type="hidden" th:field="*{id}"/>
+	
+					<div class="form-group">
+						<label for="motorista">Motorista:</label>
+						<select  th:if="!${isConsulta}" class="custom-select"  th:field="*{motorista}">
+							<option th:each="motorista : ${todosMotoristas}" th:text="${motorista.textoApresentacao}" th:value="${motorista.id}"></option>
+						</select>
+						<input th:if="${isConsulta}" class="form-control"  type="text" th:value="${locacao.nomeDoMotoristaComCpf}" disabled="disabled"/>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-8 form-group">
+							<label for="carro">Carro:</label>
+							<select  th:if="!${isConsulta}" class="custom-select"  th:field="*{carro}">
+								<option th:each="carro : ${todosCarros}" th:text="${carro.textoApresentacao}" th:value="${carro.id}"></option>
+							</select>
+							<input th:if="${isConsulta}" class="form-control"  type="text" th:value="${locacao.descricaoDoCarroComDiaria}" disabled="disabled"/>
+						</div>				
+			
+						<div th:if="${isConsulta}" class="col-md-4 form-group">
+							<label for="dataDeLocacao">Data de Locação:</label>
+							<input class="form-control"  type="text" th:field="*{dataDeLocacao}" disabled="disabled"/>
+						</div>
+					</div>
+	
+					<div th:if="${isConsulta}" class="row">
+						<div class="col-md-6 form-group">
+							<label for="valorDaDiariaContratada">Valor da Diária Contratada:</label>
+							<input class="form-control"  type="text" th:field="*{valorDaDiariaContratada}" disabled="disabled"/>
+						</div>
+		
+						<div class="col-md-6 form-group">
+							<label for="situacao">Situação:</label>
+							<input th:if="*{dataDeDevolucao}==null" class="form-control"  type="text" value="LOCADO" disabled="disabled"/>
+							<input th:if="*{dataDeDevolucao}!=null" class="form-control"  type="text" value="DEVOLVIDO" disabled="disabled"/>
+						</div>
+					</div>
+
+					<div th:if="${isConsulta} and *{dataDeDevolucao}==null" class="row">
+						<div class="col-md-6 form-group">
+							<label for="dataDeDevolucao">Dias Locados:</label>
+							<input class="form-control"  type="text" th:value="${diasLocados}" disabled="disabled"/>
+						</div>
+			
+						<div class="col-md-6 form-group">
+							<label for="valorTotal">Valor a Pagar:</label>
+							<input class="form-control"  type="text" th:value="${valorAPagar}" disabled="disabled"/>
+						</div>
+					</div>					
+					
+					<div th:if="${isConsulta} and *{dataDeDevolucao}!=null" class="row">
+						<div class="col-md-6 form-group">
+							<label for="dataDeDevolucao">Data de Devolução:</label>
+							<input class="form-control"  type="text" th:field="*{dataDeDevolucao}" disabled="disabled"/>
+						</div>
+			
+						<div class="col-md-6 form-group">
+							<label for="valorTotal">Valor Total:</label>
+							<input class="form-control"  type="text" th:field="*{valorTotal}" disabled="disabled"/>
+						</div>
+					</div>					
+			
+					<button th:if="!${isConsulta}" type="submit" class="btn btn-success">Salvar</button>
+					<a th:if="${isConsulta} and *{dataDeDevolucao}==null" th:href="@{/locacoes/devolver/{id}(id = ${locacao.id})}" class="btn btn-success">Registrar Devolução</a>
+					<a class="btn btn-secondary" th:href="@{/locacoes}">Voltar</a>
+				</form>
+			</div>
 		</div>
 	</body>
 </html>

@@ -6,31 +6,42 @@
 		<meta charset="UTF-8"/>
 		<title th:text="${nomeEntidadePlural}"></title>
 	</head>
-	<body>
-		<div class="container">
-			<h1 th:text="'Lista de ' + ${nomeEntidadePlural}"></h1>
+	<body class="container">
 
-			<a class="btn btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ ' + ${nomeEntidade}"></a>
+  		<br/>
+  		  
+		<div class="card">
 
-			<br/>
-			<br/>
+			<h4 class="card-header" th:text="${nomeEntidadePlural}"></h4>
 			
-			<table class="table">
-				<thead>
-					<tr>
-						<th th:each="coluna : ${colunas}" th:text="${coluna}"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="entidade : ${entidades}">
-					    <td th:each="atributo : ${atributos}" th:text="${entidade[atributo]}"></td>
-						<td>
-							<a class="btn btn-primary" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}">Editar</a>
-							<a class="btn btn-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}">Excluir</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="card-body">
+
+				<h4 class="card-title" th:text="'Lista de ' + ${nomeEntidadePlural}"></h4>
+
+				<br/>
+
+				<a class="btn btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ ' + ${nomeEntidade}"></a>
+	
+				<br/>
+				<br/>
+				
+				<table class="table table-striped container">
+					<thead>
+						<tr>
+							<th th:each="coluna : ${colunas}" th:text="${coluna}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="entidade : ${entidades}">
+						    <td th:each="atributo : ${atributos}" th:text="${entidade[atributo]}"></td>
+							<td>
+								<a class="btn btn-info" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}">Editar</a>
+								<a class="btn btn-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}">Excluir</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>

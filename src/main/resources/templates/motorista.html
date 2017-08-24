@@ -3,15 +3,15 @@
 	xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8"/>
-		<title>Cadastro de Motorista</title>
+		<title th:text="${nomeEntidadePlural}"></title>
 		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 	</head>
 	
 	<body>
 		<div class="container">
-			<h1>Cadastro de Motorista</h1>
+			<h1 th:text="'Cadastro de ' + ${nomeEntidadePlural}"></h1>
 	
-			<a th:href="@{/motoristas}">Listar Motoristas</a>
+	        <a class="btn btn-link" th:href="@{/{controlador}(controlador = ${controlador})}" th:text="'Listar ' + ${nomeEntidadePlural}"></a>
 	
 			<br/>
 			<br/>

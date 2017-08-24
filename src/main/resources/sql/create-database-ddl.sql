@@ -22,6 +22,7 @@ CREATE TABLE public.carro (
   chassi character varying(255) NOT NULL,
   placa character varying(10) NOT NULL,
   valor_da_diaria numeric(19,2) NOT NULL,
+  situacao character varying(25) NOT NULL,
   modelo_id bigint NOT NULL,
   CONSTRAINT carro_pkey PRIMARY KEY (id),
   CONSTRAINT carro_modelo_fk FOREIGN KEY (modelo_id)

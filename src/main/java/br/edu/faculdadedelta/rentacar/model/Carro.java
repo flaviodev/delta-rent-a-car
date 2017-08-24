@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.NumberFormat;
 
+import br.edu.faculdadedelta.rentacar.model.type.SituacaoDoCarro;
+
 @Entity
 public class Carro extends EntidadeBase<Long> {
 
@@ -20,14 +24,19 @@ public class Carro extends EntidadeBase<Long> {
 
 	private static final DecimalFormat FORMATADOR_MOEDA = new DecimalFormat("R$ #,###.00");
 	
-	public Carro() {}
+	public Carro() {
+		situacao = SituacaoDoCarro.DISPONIVEL;
+	}
 
-	public Carro(Long id, String placa, String chassi, BigDecimal valorDaDiaria, Modelo modelo) {
+	public Carro(Long id, String placa, String chassi, BigDecimal valorDaDiaria, Modelo modelo,
+			SituacaoDoCarro situacao) {
+		super();
 		this.id = id;
 		this.placa = placa;
 		this.chassi = chassi;
 		this.valorDaDiaria = valorDaDiaria;
 		this.modelo = modelo;
+		this.situacao = situacao;
 	}
 
 	@Id
@@ -47,6 +56,9 @@ public class Carro extends EntidadeBase<Long> {
 	@NotNull(message = "O campo fabricante não pode ser vazio!")
 	@ManyToOne
 	private Modelo modelo;
+	
+	@Enumerated(EnumType.STRING)
+	private SituacaoDoCarro situacao;	
 	
 	@Override
 	public Long getId() {
@@ -89,6 +101,14 @@ public class Carro extends EntidadeBase<Long> {
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
+	
+	public SituacaoDoCarro getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(SituacaoDoCarro situacao) {
+		this.situacao = situacao;
+	}
 
 	@Override
 	public String getTextoApresentacao() {
@@ -114,6 +134,10 @@ public class Carro extends EntidadeBase<Long> {
 	public String getDescricaoDoModelo() {
 		return modelo!=null ? modelo.getTextoApresentacao() : null;
 	}
+	
+	public String getDescricaoDaSituacao() {
+		return situacao!=null ? situacao.getDescricao() : null;
+	}
 
 	@Override
 	public String toString() {
@@ -125,5 +149,4 @@ public class Carro extends EntidadeBase<Long> {
 		
 		return builder.toString();
 	}
-	
 }

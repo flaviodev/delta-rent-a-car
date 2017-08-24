@@ -1,37 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8"/>
-		<title th:text="${nomeEntidadePlural}"></title>
-		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-	</head>
+	
+	<head th:replace="fragments/cabecalho :: header"></head>	
 	
 	<body class="container">
-
-  		<br/>
-  		  
+		<nav th:replace="fragments/cabecalho :: menu"></nav>
+  		
 		<div class="card">
-
-			<h4 class="card-header" th:text="${nomeEntidadePlural}"></h4>
+			
+			<h4 th:replace="fragments/cadastro :: cabecalho-card"></h4>
 			
 			<div class="card-body">
 
-				<h4 class="card-title" th:text="'Cadastro de ' + ${nomeEntidadePlural}"></h4>
 
 				<form  class="container" action="/carros/salvar" method="POST" th:object="${carro}">
-					<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-						<div th:each="detailedError: ${#fields.detailedErrors()}">
-							<span th:text="${detailedError.message}"></span>
-						</div>
-					</div>
-		
-					<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
-						<span th:text="${mensagem}"></span>
-					</div>
-		
-					<br/>
-		
+					<nav th:replace="fragments/cadastro :: mensagens"></nav>		
+					
 					<input type="hidden" th:field="*{id}"/>
 		
 					<div class="form-group">
@@ -55,9 +40,8 @@
 							<option th:each="modelo : ${todosModelos}" th:text="${modelo.textoApresentacao}" th:value="${modelo.id}"></option>
 						</select>
 					</div>
-				
-					<button type="submit" class="btn btn-success">Salvar</button>
-					<a class="btn btn-secondary" th:href="@{/{controlador}(controlador = ${controlador})}">Voltar</a>
+					
+					<nav th:replace="fragments/cadastro :: botoes"></nav>				
 				</form>
 			</div>
 		</div>

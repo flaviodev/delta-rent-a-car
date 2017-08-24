@@ -1,36 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8"/>
-		<title th:text="${nomeEntidadePlural}"></title>
-		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-	</head>
+	<head th:replace="fragments/cabecalho :: header"></head>	
 	
 	<body class="container">
+		<nav th:replace="fragments/cabecalho :: menu"></nav>
   		
-  		<br/>
-		
 		<div class="card">
-
-			<h4 class="card-header">Locações</h4>
-
+			
+			<h4 th:replace="fragments/cadastro :: cabecalho-card"></h4>
+			
 			<div class="card-body">
-				<h4 class="card-title">Locação de Carro</h4>
-				
-				<br/>
-				
+							
 				<form  class="container" action="/locacoes/salvar" method="POST" th:object="${locacao}">
-					<div class="alert alert-danger" th:if="${#fields.hasAnyErrors()}">
-						<div th:each="detailedError: ${#fields.detailedErrors()}">
-							<span th:text="${detailedError.message}"></span>
-						</div>
-					</div>
-		
-					<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
-						<span th:text="${mensagem}"></span>
-					</div>
-		
+					
+					<nav th:replace="fragments/cadastro :: mensagens"></nav>		
 		
 					<input type="hidden" th:field="*{id}"/>
 	
@@ -94,9 +78,11 @@
 						</div>
 					</div>					
 			
-					<button th:if="!${isConsulta}" type="submit" class="btn btn-success">Salvar</button>
-					<a th:if="${isConsulta} and *{dataDeDevolucao}==null" th:href="@{/locacoes/devolver/{id}(id = ${locacao.id})}" class="btn btn-success">Registrar Devolução</a>
-					<a class="btn btn-secondary" th:href="@{/locacoes}">Voltar</a>
+					<div th:fragment="botoes"  class="form-group">
+						<button th:if="!${isConsulta}" type="submit" class="btn btn-success">Salvar</button>
+						<a th:if="${isConsulta} and *{dataDeDevolucao}==null" th:href="@{/locacoes/devolver/{id}(id = ${locacao.id})}" class="btn btn-success">Registrar Devolução</a>
+						<a class="btn btn-secondary" th:href="@{/locacoes}">Voltar</a>
+					</div>
 				</form>
 			</div>
 		</div>

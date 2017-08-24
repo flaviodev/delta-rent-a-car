@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-	<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-	<head>
-		<meta charset="UTF-8"/>
-		<title th:text="${nomeEntidadePlural}"></title>
-	</head>
+
+	<head th:replace="fragments/cabecalho :: header"></head>
+	
 	<body class="container">
+		<nav th:replace="fragments/cabecalho :: menu"></nav>
+		
+  		<div class="card">
 
-  		<br/>
-  		  
-		<div class="card">
-
-			<h4 class="card-header" th:text="${nomeEntidadePlural}"></h4>
+			<h4 class="card-header" th:text="'Lista de ' + ${nomeEntidadePlural}"></h4>
 			
 			<div class="card-body">
-
-				<h4 class="card-title" th:text="'Lista de ' + ${nomeEntidadePlural}"></h4>
-
-				<br/>
-
-				<a class="btn btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ ' + ${nomeEntidade}"></a>
-	
-				<br/>
-				<br/>
+				
+				<div>
+					<a class="btn btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ ' + ${nomeEntidade}"></a>
+				</div>
 				
 				<table class="table table-striped container">
 					<thead>

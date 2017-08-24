@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8"/>
-		<title>Locação de Carro</title>
+		<title th:text="${nomeEntidadePlural}"></title>
 		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
 	</head>
 	
@@ -34,14 +34,14 @@
 				<div class="form-group">
 					<label for="motorista">Motorista:</label>
 					<select class="custom-select"  th:field="*{motorista}">
-						<option th:each="motorista : ${todosMotoristas}" th:text="${motorista.nome} + ' (' + ${motorista.cpf}+')'" th:value="${motorista.id}"></option>
+						<option th:each="motorista : ${todosMotoristas}" th:text="${motorista.textoApresentacao}" th:value="${motorista.id}"></option>
 					</select>
 				</div>
 				
 				<div class="form-group">
 					<label for="carro">Carro:</label>
 					<select class="custom-select"  th:field="*{carro}">
-						<option th:each="carro : ${todosCarros}" th:text="${carro.placa} + ' - ' + ${carro.modelo.nomeDoFabricante} + '/' + ${carro.modelo.descricao}" th:value="${carro.id}"></option>
+						<option th:each="carro : ${todosCarros}" th:text="${carro.textoApresentacao}" th:value="${carro.id}"></option>
 					</select>
 				</div>				
 	

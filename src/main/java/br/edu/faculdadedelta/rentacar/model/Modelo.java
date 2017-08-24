@@ -77,18 +77,38 @@ public class Modelo extends EntidadeBase<Long> {
 		this.fabricante = fabricante;
 	}
 
+	@Override
+	public String getTextoApresentacao() {
+		StringBuilder texto = new StringBuilder("");
+		texto.append(fabricante!=null ? fabricante.getNome() : "");
+		texto.append(fabricante!=null ? "/" : "");
+		texto.append(descricao!=null ? descricao : "");
+		texto.append(categoria!=null ? " - " : "");
+		texto.append(categoria!=null ? categoria.getDescricao() : "");
+		
+		return texto.toString();
+	}
+	
 	public String getDescricaoDaCategoria() {
 		return categoria!=null ? categoria.getDescricao() : null; 
 	}
 
 	public String getNomeDoFabricante() {
-		return fabricante!=null ? fabricante.getNome() : null; 
+		return fabricante!=null ? fabricante.getTextoApresentacao() : null; 
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Modelo [id=" + id + ", descricao=" + descricao + ", categoria=" + categoria + ", fabricante="
-				+ fabricante + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Modelo [id=");
+		builder.append(id);
+		builder.append("] -> ");
+		builder.append(getTextoApresentacao());
+		
+		return builder.toString();
 	}
+
+	
+
 	
 }

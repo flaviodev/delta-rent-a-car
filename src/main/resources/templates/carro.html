@@ -49,7 +49,7 @@
 				<div class="form-group">
 					<label for="modelo">Modelo:</label>
 					<select class="custom-select"  th:field="*{modelo}">
-						<option th:each="modelo : ${todosModelos}" th:text="${modelo.fabricante.nome} + ' - ' + ${modelo.descricao}" th:value="${modelo.id}"></option>
+						<option th:each="modelo : ${todosModelos}" th:text="${modelo.textoApresentacao}" th:value="${modelo.id}"></option>
 					</select>
 				</div>
 			

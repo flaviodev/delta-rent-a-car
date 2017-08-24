@@ -1,6 +1,8 @@
 package br.edu.faculdadedelta.rentacar.model;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -19,6 +21,9 @@ import org.springframework.format.annotation.NumberFormat;
 public class Locacao extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -3475674544565344461L;
+	
+	private static final SimpleDateFormat FORMATADOR_DATA =  new SimpleDateFormat("dd/MM/yyyy");
+	private static final DecimalFormat FORMATADOR_MOEDA = new DecimalFormat("R$ #,###.00");
 	
 	public Locacao() {
 		this.dataDeLocacao = new Date();
@@ -107,22 +112,38 @@ public class Locacao extends EntidadeBase<Long> {
 		this.carro = carro;
 	}
 
+	@Override
+	public String getTextoApresentacao() {
+		StringBuilder texto = new StringBuilder("");
+		texto.append(motorista!=null ? motorista.getTextoApresentacao() : "");
+		texto.append(motorista!=null ? " / " : "");
+		texto.append(carro!=null ? carro.getTextoApresentacao() : "");
+		texto.append(carro!=null ? " / " : "");
+		texto.append(dataDeDevolucao!=null ? FORMATADOR_DATA.format(dataDeLocacao) : "");
+		
+		return texto.toString();
+	}	
+	
 	public String getNomeDoMotorista() {
-		return motorista!=null ? motorista.getNome() + " (" + motorista.getCpf() + ")" : null;
+		return motorista!=null ? motorista.getTextoApresentacao() : null;
 	}
 
 	public String getValorDaDiaria() {
-		return carro!=null ? carro.getValorDaDiaria().toString() : null;
+		return carro!=null && carro.getValorDaDiaria()!=null ? FORMATADOR_MOEDA.format(carro.getValorDaDiaria()) : null;
 	}
 	
 	public String getDescricaoDoCarro() {
-		return carro!=null ? carro.getPlaca() + " - " + carro.getModelo().getNomeDoFabricante() + "/" + carro.getModelo().getDescricao() : null;
+		return carro!=null ? carro.getTextoApresentacao() : null;
 	}
 
 	@Override
 	public String toString() {
-		return "Locacao [id=" + id + ", valorTotal=" + valorTotal + ", dataDeLocacao=" + dataDeLocacao
-				+ ", dataDeDevolucao=" + dataDeDevolucao + ", motorista=" + motorista + ", carro=" + carro + "]";
-	}
-   
+		StringBuilder builder = new StringBuilder();
+		builder.append("Locação [id=");
+		builder.append(id);
+		builder.append("] -> ");
+		builder.append(getTextoApresentacao());
+		
+		return builder.toString();
+	}   
 }

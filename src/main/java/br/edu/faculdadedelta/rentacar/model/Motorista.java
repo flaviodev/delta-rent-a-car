@@ -85,12 +85,30 @@ public class Motorista extends EntidadeBase<Long> {
 		this.sexo = sexo;
 	}
 
+	@Override
+	public String getTextoApresentacao() {
+		StringBuilder texto = new StringBuilder("");
+		texto.append(nome!=null ? nome : "");
+		texto.append(cpf!=null ? " (" : "");
+		texto.append(cpf!=null ? cpf : "");
+		texto.append(cpf!=null ? ")" : "");
+		
+		return texto.toString();
+	}
+
 	public String getDescricaoDoSexo() {
 		return sexo!=null ? sexo.getDescricao() : null;
 	}
 	
 	@Override
 	public String toString() {
-		return "Motorista [id=" + id + ", nome=" + nome + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Motorista [id=");
+		builder.append(id);
+		builder.append("] -> ");
+		builder.append(getTextoApresentacao());
+		
+		return builder.toString();
 	}
+
 }

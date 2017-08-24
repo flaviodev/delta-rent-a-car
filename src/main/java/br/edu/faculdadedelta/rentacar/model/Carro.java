@@ -79,13 +79,29 @@ public class Carro extends EntidadeBase<Long> {
 		this.modelo = modelo;
 	}
 
+	@Override
+	public String getTextoApresentacao() {
+		StringBuilder texto = new StringBuilder("");
+		texto.append(placa!=null ? placa : "");
+		texto.append(placa!=null ? " - " : "");
+		texto.append(modelo!=null ? modelo.getTextoApresentacao() : "");
+		
+		return texto.toString();
+	}
+	
 	public String getDescricaoDoModelo() {
-		return modelo!=null ? modelo.getNomeDoFabricante() + " - " + modelo.getDescricao() : null;
+		return modelo!=null ? modelo.getTextoApresentacao() : null;
 	}
 
 	@Override
 	public String toString() {
-		return "Carro [id=" + id + ", placa=" + placa + ", modelo=" + modelo + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Carro [id=");
+		builder.append(id);
+		builder.append("] -> ");
+		builder.append(getTextoApresentacao());
+		
+		return builder.toString();
 	}
 	
 }

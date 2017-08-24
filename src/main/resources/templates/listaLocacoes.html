@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+	<head>
+		<meta charset="UTF-8"/>
+		<title th:text="${nomeEntidadePlural}"></title>
+	</head>
+	<body>
+		<div class="container">
+			<h1 th:text="'Lista de ' + ${nomeEntidadePlural}"></h1>
+
+			<a class="btn btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ ' + ${nomeEntidade}"></a>
+
+			<br/>
+			<br/>
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th th:each="coluna : ${colunas}" th:text="${coluna}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="entidade : ${entidades}">
+					    <td th:each="atributo : ${atributos}" th:text="${entidade[atributo]}"></td>
+						<td>
+							<a class="btn btn-primary" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}">Consultar</a>
+							<a class="btn btn-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}">Registar Devolução</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

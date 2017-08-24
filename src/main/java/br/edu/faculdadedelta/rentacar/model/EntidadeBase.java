@@ -9,6 +9,8 @@ public abstract class EntidadeBase<ID extends Serializable> implements Serializa
 
 	public abstract void setId(ID id);
 
+	public abstract String getTextoApresentacao();
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

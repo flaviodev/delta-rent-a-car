@@ -57,7 +57,18 @@ public class Fabricante extends EntidadeBase<Long> {
 	}
 
 	@Override
+	public String getTextoApresentacao() {
+		return nome;
+	}
+	
+	@Override
 	public String toString() {
-		return "Fabricante [id=" + id + ", nome=" + nome + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Fabricante [id=");
+		builder.append(id);
+		builder.append("] -> ");
+		builder.append(getTextoApresentacao());
+		
+		return builder.toString();
 	}
 }

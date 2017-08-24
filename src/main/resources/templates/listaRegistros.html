@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-
+	
 	<head th:replace="fragments/cabecalho :: header"></head>
 	
 	<body class="container">
 		<nav th:replace="fragments/cabecalho :: menu"></nav>
-		
-  		<div class="card">
+  		  
+		<div class="card">
 
 			<h4 class="card-header" th:text="'Lista de ' + ${nomeEntidadePlural}"></h4>
 			
 			<div class="card-body">
 				
-				<div>
-					<a class="btn btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ ' + ${nomeEntidade}"></a>
+				<div  class="container">
+					<a class="btn  btn-novo btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ Novo ' + ${nomeEntidade}"></a>
 				</div>
 				
 				<table class="table table-striped container">
@@ -26,7 +26,7 @@
 					<tbody>
 						<tr th:each="entidade : ${entidades}">
 						    <td th:each="atributo : ${atributos}" th:text="${entidade[atributo]}"></td>
-							<td>
+							<td style="width:180px">
 								<a class="btn btn-info" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}">Editar</a>
 								<a class="btn btn-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}">Excluir</a>
 							</td>

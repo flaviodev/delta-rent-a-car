@@ -1,3 +1,33 @@
+body {
+	background-color: #d7dbdd;
+}
+
+
 .card {
 	margin-top: 80px;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+	margin-right: auto;
+	margin-left: auto;
+	border: solid;
+	border-width: 1px;
+	border-color: #f7f7f7;	
+}
+
+.btn {
+	margin: 0px;
+	padding: 5px;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn-novo {
+	margin: 20px 20px 20px 5px;
+}
+
+
+.custom-select {
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
+}
+
+tr {
+	max-height: 10px;
 }

@@ -19,6 +19,15 @@ body {
 	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.08);
 }
 
+.alert {
+	margin: 10px;
+}
+
+form {
+	margin-top: 15px;
+}
+
+
 .btn-novo {
 	margin: 20px 20px 20px 5px;
 }

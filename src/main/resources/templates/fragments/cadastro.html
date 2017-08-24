@@ -11,8 +11,6 @@
 		<div class="alert alert-success" th:if="${!#strings.isEmpty(mensagem)}">
 			<span th:text="${mensagem}"></span>
 		</div>
-	
-		<br/>
 	</div>
 	
 	<h4 th:fragment="cabecalho-card" class="card-header" th:text="'Cadastro de ' + ${nomeEntidadePlural}"></h4>

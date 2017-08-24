@@ -30,7 +30,7 @@
 						<div class="col-md-8 form-group">
 							<label for="carro">Carro:</label>
 							<select  th:if="!${isConsulta}" class="custom-select"  th:field="*{carro}">
-								<option th:each="carro : ${todosCarros}" th:text="${carro.textoApresentacao}" th:value="${carro.id}"></option>
+								<option th:each="carro : ${carrosDisponiveis}" th:text="${carro.textoApresentacao}" th:value="${carro.id}"></option>
 							</select>
 							<input th:if="${isConsulta}" class="form-control"  type="text" th:value="${locacao.descricaoDoCarroComDiaria}" disabled="disabled"/>
 						</div>				

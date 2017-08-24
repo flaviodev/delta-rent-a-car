@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.edu.faculdadedelta.rentacar.model.Carro;
 import br.edu.faculdadedelta.rentacar.model.Locacao;
 import br.edu.faculdadedelta.rentacar.model.Motorista;
+import br.edu.faculdadedelta.rentacar.model.type.SituacaoDoCarro;
 import br.edu.faculdadedelta.rentacar.repository.CarroRepository;
 import br.edu.faculdadedelta.rentacar.repository.LocacaoRepository;
 import br.edu.faculdadedelta.rentacar.repository.MotoristaRepository;
@@ -76,16 +79,21 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 	@Override
 	public ModelAndView novo() {
 		ModelAndView mv = super.novo(); 
-		
+
 		mv.addObject("isConsulta", false);
 		
 		return mv;
 	}
 	
 	@Override
+	@Transactional
 	public ModelAndView salvar(Locacao entidade, Errors errors, RedirectAttributes redirectAttributes) {
 		if(entidade!=null && entidade.getCarro()!=null) {
 			entidade.setValorDaDiariaContratada(entidade.getCarro().getValorDaDiaria());
+			
+			Carro carro = entidade.getCarro();
+			carro.setSituacao(SituacaoDoCarro.LOCADO);
+			carroRepository.save(carro);
 		}
 		
 		return super.salvar(entidade, errors, redirectAttributes);
@@ -112,6 +120,7 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 		return mv;
 	}	
 
+	@Transactional
 	@RequestMapping(value="/devolver/{id}", method = RequestMethod.GET)
 	public ModelAndView devolver(@PathVariable("id") Long id) {
 		Locacao locacao = getRepositorio().findOne(id);
@@ -130,6 +139,10 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
  
 			locacao.setValorTotal(locacao.getValorDaDiariaContratada().multiply(new BigDecimal(diferencaEmDias)));
 
+			Carro carro = locacao.getCarro();
+			carro.setSituacao(SituacaoDoCarro.DISPONIVEL);
+			carroRepository.save(carro);
+			
 			getRepositorio().save(locacao);
 			
 			mv.addObject("mensagem", "Devolução registrada com sucesso!");
@@ -143,8 +156,8 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 		return motoristaRepository.findAll();
 	}
 
-	@ModelAttribute("todosCarros")
-	public List<Carro> todosCarros() {
-		return carroRepository.findAll();
+	@ModelAttribute("carrosDisponiveis")
+	public List<Carro> carrosDisponiveis() {
+		return carroRepository.findAllBySituacao(SituacaoDoCarro.DISPONIVEL);
 	}
 }

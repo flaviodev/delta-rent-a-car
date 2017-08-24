@@ -5,6 +5,7 @@
 		<meta charset="UTF-8"/>
 		<title th:text="'Delta rent-a-car' + (${nomeEntidadePlural}!=null? ' - '+ ${nomeEntidadePlural} : '')"></title>
 		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+		<link rel="stylesheet" th:href="@{/css/material-design-iconic-font.min.css}"/>
 		<link rel="stylesheet" th:href="@{/css/style.css}"/>
 	</head>
 	
@@ -19,19 +20,19 @@
 	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	    <ul class="navbar-nav mr-auto">
 	      <li class="nav-item">
-	        <a class="nav-link" href="/fabricantes">Fabricantes</a>
+	        <a class="nav-link" href="/fabricantes"><i class="zmdi zmdi-store"></i> Fabricantes</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="/modelos">Modelos</a>
+	        <a class="nav-link" href="/modelos"><i class="zmdi zmdi-assignment"></i> Modelos</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="/carros">Carros</a>
+	        <a class="nav-link" href="/carros"><i class="zmdi zmdi-car"></i> Carros</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="/motoristas">Motoristas</a>
+	        <a class="nav-link" href="/motoristas"><i class="zmdi zmdi-accounts"></i> Motoristas</a>
 	      </li>
 	      <li class="nav-item">
-	        <a class="nav-link" href="/locacoes">Locações</a>
+	        <a class="nav-link" href="/locacoes"><i class="zmdi zmdi-turning-sign"></i> Locações</a>
 	      </li>
 	    </ul>
 	  </div>

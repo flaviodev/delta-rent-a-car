@@ -34,12 +34,12 @@ public class MotoristaController extends CRUDControllerBase<Long, Motorista, Mot
 	
 	@Override
 	public String[] getColunasListagem() {
-		return new String[]{"ID","Nome","CPF", "CNH", "Sexo"};
+		return new String[]{"ID","Nome","CPF"};
 	}
 	
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id","nome","cpf", "cnh", "descricaoDoSexo"};
+		return new String[]{"id","nome","cpf"};
 	}
 	
 	@ModelAttribute("todosSexos")

@@ -43,12 +43,12 @@ public class CarroController extends CRUDControllerBase<Long, Carro, CarroReposi
 	
 	@Override
 	public String[] getColunasListagem() {
-		return new String[]{"ID","Placa", "Chassi","Valor da Diária", "Modelo"};
+		return new String[]{"ID", "Modelo","Placa","Valor da Diária"};
 	}
 	
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id","placa","chassi", "valorDaDiaria", "descricaoDoModelo"};
+		return new String[]{"id", "descricaoDoModelo", "placa", "valorDaDiaria"};
 	}
 	
 	@ModelAttribute("todosModelos")

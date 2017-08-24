@@ -27,7 +27,8 @@
 						<tr th:each="entidade : ${entidades}">
 						    <td th:each="atributo : ${atributos}" th:text="${entidade[atributo]}"></td>
 							<td>
-								<a class="btn btn-info" th:href="@{/{controlador}/consultar/{id}(controlador = ${controlador},id = ${entidade.id})}">Consultar</a>
+								<a class="btn btn-outline-primary" th:href="@{/{controlador}/consultar/{id}(controlador = ${controlador},id = ${entidade.id})}"
+								data-toggle="tooltip" data-placement="top" title="Consultar">Consultar</a>
 							</td>
 						</tr>
 					</tbody>

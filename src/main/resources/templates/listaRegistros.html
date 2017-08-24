@@ -27,8 +27,10 @@
 						<tr th:each="entidade : ${entidades}">
 						    <td th:each="atributo : ${atributos}" th:text="${entidade[atributo]}"></td>
 							<td style="width:180px">
-								<a class="btn btn-info" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}">Editar</a>
-								<a class="btn btn-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}">Excluir</a>
+								<a class="btn btn-outline-primary" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}"
+									data-toggle="tooltip" data-placement="top" title="Editar">Editar</a>
+								<a class="btn btn-outline-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}"
+									data-toggle="tooltip" data-placement="top" title="Excluir">Excluir</a>
 							</td>
 						</tr>
 					</tbody>

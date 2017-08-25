@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.edu.faculdadedelta.rentacar.model.Carro;
 import br.edu.faculdadedelta.rentacar.model.Modelo;
 import br.edu.faculdadedelta.rentacar.repository.CarroRepository;
+import br.edu.faculdadedelta.rentacar.repository.LocacaoRepository;
 import br.edu.faculdadedelta.rentacar.repository.ModeloRepository;
 
 @Controller
@@ -19,7 +20,14 @@ public class CarroController extends CRUDControllerBase<Long, Carro, CarroReposi
 	protected static final String NOME_CONTROLADOR = "carros";
 	
 	@Autowired
+	private CarroRepository carroRepository;
+
+	@Autowired
+	private LocacaoRepository locacaoRepository;
+
+	@Autowired
 	private ModeloRepository modeloRepository;
+
 	
 	@Override
 	public String getNomeControlador() {
@@ -56,4 +64,14 @@ public class CarroController extends CRUDControllerBase<Long, Carro, CarroReposi
 		return modeloRepository.findAll();
 	}
 	
+	@Override
+	public String validaSeEntidadePodeSerExcluida(Long id) {
+		Carro carro = carroRepository.findOne(id);
+		
+		if(carro==null)
+			return null;
+		
+		int qtdLocacoesDoCarro = locacaoRepository.countByCarro(carro);
+		return qtdLocacoesDoCarro > 0 ? "Carro '" +carro.getTextoApresentacaoSimplificado()+ "' não pode ser excluído! Existem locações castrados que utilizam este carro." : null;
+	}
 }

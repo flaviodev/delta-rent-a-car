@@ -12,6 +12,7 @@
 			<h4 class="card-header" th:text="'Lista de ' + ${nomeEntidadePlural}"></h4>
 			
 			<div class="card-body">
+				<div th:replace="fragments/listagem :: mensagens"></div>				
 				
 				<div  class="container">
 					<a class="btn  btn-novo btn-primary" th:href="@{/{controlador}/novo(controlador = ${controlador})}" th:text="'+ Novo ' + ${nomeEntidade}"></a>

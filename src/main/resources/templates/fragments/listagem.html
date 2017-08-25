@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+	<div th:fragment="mensagens">	
+		<div class="alert alert-danger" th:if="${!#strings.isEmpty(mensagemValidacaoExclusao)}">
+			<span th:text="${mensagemValidacaoExclusao}"></span>
+		</div>
+	</div>
+	
+	<h4 th:fragment="cabecalho-card" class="card-header" th:text="'Cadastro de ' + ${nomeEntidadePlural}"></h4>
+	
+	<div th:fragment="botoes"  class="form-group">
+		<button type="submit" class="btn btn-success">Salvar</button>
+		<a class="btn btn-secondary" th:href="@{/{controlador}(controlador = ${controlador})}">Voltar</a>
+	</div>
+</html>

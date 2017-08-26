@@ -10,30 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.edu.faculdadedelta.rentacar.model.Carro;
 import br.edu.faculdadedelta.rentacar.model.Modelo;
 import br.edu.faculdadedelta.rentacar.repository.CarroRepository;
-import br.edu.faculdadedelta.rentacar.repository.LocacaoRepository;
-import br.edu.faculdadedelta.rentacar.repository.ModeloRepository;
+import br.edu.faculdadedelta.rentacar.services.CarroServico;
+import br.edu.faculdadedelta.rentacar.services.ModeloServico;
 
 @Controller
-@RequestMapping("/"+CarroController.NOME_CONTROLADOR)
-public class CarroController extends CRUDControllerBase<Long, Carro, CarroRepository>{
+@RequestMapping("/" + CarroController.NOME_CONTROLADOR)
+public class CarroController extends CRUDControllerBase<Long, Carro, CarroRepository, CarroServico> {
 
 	protected static final String NOME_CONTROLADOR = "carros";
-	
-	@Autowired
-	private CarroRepository carroRepository;
 
 	@Autowired
-	private LocacaoRepository locacaoRepository;
+	private ModeloServico modeloServico;
 
-	@Autowired
-	private ModeloRepository modeloRepository;
-
-	
 	@Override
 	public String getNomeControlador() {
 		return NOME_CONTROLADOR;
 	}
-	
+
 	@Override
 	public String getNomeTemplateEdicao() {
 		return "carro";
@@ -43,37 +36,25 @@ public class CarroController extends CRUDControllerBase<Long, Carro, CarroReposi
 	public String getNomeEntidade() {
 		return "Carro";
 	}
-	
+
 	@Override
 	public String getNomeEntidadePlural() {
 		return "Carros";
 	}
-	
+
 	@Override
 	public String[] getColunasListagem() {
-		return new String[]{"ID", "Modelo","Placa","Valor da Diária", "Situação"};
+		return new String[] { "ID", "Modelo", "Placa", "Valor da Diária", "Situação" };
 	}
-	
+
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id", "descricaoDoModelo", "placa", "valorDaDiaria", "descricaoDaSituacao"};
+		return new String[] { "id", "descricaoDoModelo", "placa", "valorDaDiaria", "descricaoDaSituacao" };
 	}
-	
+
 	@ModelAttribute("todosModelos")
 	public List<Modelo> todosModelos() {
-		return modeloRepository.findAll();
+		return modeloServico.listarTodos();
 	}
-	
-	@Override
-	public String validaSeEntidadePodeSerExcluida(Long id) {
-		Carro carro = carroRepository.findOne(id);
-		
-		if(carro==null)
-			return null;
-		
-		int qtdLocacoesDoCarro = locacaoRepository.countByCarro(carro);
-		return qtdLocacoesDoCarro > 0 ? "Carro '" +carro.getTextoApresentacaoSimplificado()+ "' não pode ser excluído! Existem locações castrados que utilizam este carro." : null;
-	}
-	
 
 }

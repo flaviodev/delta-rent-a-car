@@ -1,10 +1,13 @@
 package br.edu.faculdadedelta.rentacar.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.faculdadedelta.rentacar.model.Carro;
 import br.edu.faculdadedelta.rentacar.model.Modelo;
+import br.edu.faculdadedelta.rentacar.model.type.SituacaoDoCarro;
 import br.edu.faculdadedelta.rentacar.repository.CarroRepository;
 
 @Service
@@ -27,5 +30,9 @@ public class CarroServico extends CRUDServicoBase<Long,Carro, CarroRepository>{
 	public int getQuantidadeCarrosAssociadosAoModelo(Modelo modelo) {
 		
 		return getRepositorio().countByModelo(modelo);
+	}
+	
+	public List<Carro> getCarrosPelaSituacao(SituacaoDoCarro situacao) {
+		return getRepositorio().findAllBySituacao(situacao);
 	}
 }

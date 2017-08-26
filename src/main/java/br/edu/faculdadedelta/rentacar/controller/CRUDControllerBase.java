@@ -10,14 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.faculdadedelta.rentacar.model.EntidadeBase;
+import br.edu.faculdadedelta.rentacar.services.CRUDServicoBase;
 
 
-public abstract class CRUDControllerBase<ID extends Serializable, E extends EntidadeBase<ID>, R extends JpaRepository<E, ID>> extends ControllerBase<ID, E, R> {
+public abstract class CRUDControllerBase<ID extends Serializable, E extends EntidadeBase<ID>, R extends JpaRepository<E, ID>, S extends CRUDServicoBase<ID,E, R>> extends ControllerBase<ID, E, R, S> {
 
 	
 	@RequestMapping(value="/editar/{id}", method = RequestMethod.GET)
 	public ModelAndView editar(@PathVariable("id") ID id) {
-		E entidade = getRepositorio().findOne(id);
+		E entidade = getServico().obter(id);
 
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
@@ -30,10 +31,10 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 	public ModelAndView excluir(@PathVariable("id") ID id, RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/"+getNomeControlador());
 		
-		String mensagemValidacao = validaSeEntidadePodeSerExcluida(id);
+		String mensagemValidacao = getServico().validaSeEntidadePodeSerExcluida(id);
 		
 		if(mensagemValidacao == null) {
-			getRepositorio().delete(id);
+			getServico().excluir(id);
 		} else {
 			redirectAttributes.addFlashAttribute("mensagemValidacaoExclusao", mensagemValidacao);
 		}
@@ -48,7 +49,5 @@ public abstract class CRUDControllerBase<ID extends Serializable, E extends Enti
 	protected String getMensagemDeSucessoSalvar() {
 		return "Cadastro de " + getNomeEntidade() + " salvo com sucesso!";
 	}
-	
-	public abstract String validaSeEntidadePodeSerExcluida(ID id);
 	
 }

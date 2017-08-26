@@ -1,7 +1,5 @@
 package br.edu.faculdadedelta.rentacar.controller;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -20,27 +18,28 @@ import br.edu.faculdadedelta.rentacar.model.Carro;
 import br.edu.faculdadedelta.rentacar.model.Locacao;
 import br.edu.faculdadedelta.rentacar.model.Motorista;
 import br.edu.faculdadedelta.rentacar.model.type.SituacaoDoCarro;
-import br.edu.faculdadedelta.rentacar.repository.CarroRepository;
 import br.edu.faculdadedelta.rentacar.repository.LocacaoRepository;
-import br.edu.faculdadedelta.rentacar.repository.MotoristaRepository;
+import br.edu.faculdadedelta.rentacar.services.CarroServico;
+import br.edu.faculdadedelta.rentacar.services.LocacaoServico;
+import br.edu.faculdadedelta.rentacar.services.MotoristaServico;
 
 @Controller
-@RequestMapping("/"+LocacaoController.NOME_CONTROLADOR)
-public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepository>{
+@RequestMapping("/" + LocacaoController.NOME_CONTROLADOR)
+public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepository, LocacaoServico> {
 
 	protected static final String NOME_CONTROLADOR = "locacoes";
-	
+
 	@Autowired
-	private MotoristaRepository motoristaRepository;
-	
+	private MotoristaServico motoristaServico;
+
 	@Autowired
-	private CarroRepository carroRepository;
+	private CarroServico carroServico;
 
 	@Override
 	public String getNomeControlador() {
 		return NOME_CONTROLADOR;
 	}
-	
+
 	@Override
 	public String getNomeTemplateEdicao() {
 		return "locacao";
@@ -55,109 +54,90 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 	protected String getMensagemDeSucessoSalvar() {
 		return "Locação efetuada com sucesso!";
 	}
-	
+
 	@Override
 	public String getNomeEntidade() {
 		return "Locação";
 	}
-	
+
 	@Override
 	public String getNomeEntidadePlural() {
 		return "Locações";
 	}
-	
+
 	@Override
 	public String[] getColunasListagem() {
-		return new String[]{"ID","Motorista", "Carro", "Valor Diária", "Data Locação", "Data Devolução"};
+		return new String[] { "ID", "Motorista", "Carro", "Valor Diária", "Data Locação", "Data Devolução" };
 	}
-	
+
 	@Override
 	public String[] getAtributosListagem() {
-		return new String[]{"id","nomeDoMotorista","descricaoDoCarro", "valorDaDiariaContratada", "dataDeLocacao", "dataDeDevolucao"};
+		return new String[] { "id", "nomeDoMotorista", "descricaoDoCarro", "valorDaDiariaContratada", "dataDeLocacao",
+				"dataDeDevolucao" };
 	}
-	
+
 	@Override
 	public ModelAndView novo() {
-		ModelAndView mv = super.novo(); 
+		ModelAndView mv = super.novo();
 
 		mv.addObject("isConsulta", false);
-		
+
 		return mv;
 	}
-	
+
 	@Override
 	@Transactional
 	public ModelAndView salvar(Locacao entidade, Errors errors, RedirectAttributes redirectAttributes) {
-		if(entidade!=null && entidade.getCarro()!=null) {
+		if (entidade != null && entidade.getCarro() != null) {
 			entidade.setValorDaDiariaContratada(entidade.getCarro().getValorDaDiaria());
-			
+
 			Carro carro = entidade.getCarro();
 			carro.setSituacao(SituacaoDoCarro.LOCADO);
-			carroRepository.save(carro);
+			carroServico.salvar(carro);
 		}
-		
+
 		return super.salvar(entidade, errors, redirectAttributes);
 	}
-	
-	@RequestMapping(value="/consultar/{id}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/consultar/{id}", method = RequestMethod.GET)
 	public ModelAndView consultar(@PathVariable("id") Long id) {
-		Locacao locacao = getRepositorio().findOne(id);
+		Locacao locacao = getServico().obter(id);
 
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
-		
+
 		mv.addObject(getNomeTemplateEdicao(), locacao);
 		mv.addObject("isConsulta", true);
-		
-		if(locacao!=null && locacao.getDataDeDevolucao()==null) {
-			long diferenca = Math.abs(new Date().getTime() - locacao.getDataDeLocacao().getTime());
-			long diferencaEmDias = diferenca / (24 * 60 * 60 * 1000);
-			diferencaEmDias++;
- 
-			mv.addObject("diasLocados", diferencaEmDias);
-			mv.addObject("valorAPagar", locacao.getValorDaDiariaContratada().multiply(new BigDecimal(diferencaEmDias)));
-		}
-		
+
+		mv.addObject("diasLocados", getServico().getDiasLocados(locacao));
+		mv.addObject("valorAPagar", getServico().getValorAPagarLocacaoEmAberto(locacao));
+
 		return mv;
-	}	
+	}
 
 	@Transactional
-	@RequestMapping(value="/devolver/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/devolver/{id}", method = RequestMethod.GET)
 	public ModelAndView devolver(@PathVariable("id") Long id) {
-		Locacao locacao = getRepositorio().findOne(id);
+		Locacao locacao = getServico().obter(id);
 
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
-		
+
 		mv.addObject(getNomeTemplateEdicao(), locacao);
 		mv.addObject("isConsulta", true);
-		
-		if(locacao!=null && locacao.getDataDeDevolucao()==null) {
-			locacao.setDataDeDevolucao(new Date());
-			
-			long diferenca = Math.abs(new Date().getTime() - locacao.getDataDeLocacao().getTime());
-			long diferencaEmDias = diferenca / (24 * 60 * 60 * 1000);
-			diferencaEmDias++;
- 
-			locacao.setValorTotal(locacao.getValorDaDiariaContratada().multiply(new BigDecimal(diferencaEmDias)));
 
-			Carro carro = locacao.getCarro();
-			carro.setSituacao(SituacaoDoCarro.DISPONIVEL);
-			carroRepository.save(carro);
-			
-			getRepositorio().save(locacao);
-			
-			mv.addObject("mensagem", "Devolução registrada com sucesso!");
-		}
-		
+		getServico().registrarDevolucao(locacao);
+
+		mv.addObject("mensagem", "Devolução registrada com sucesso!");
+
 		return mv;
-	}	
-	
+	}
+
 	@ModelAttribute("todosMotoristas")
 	public List<Motorista> todosMotoristas() {
-		return motoristaRepository.findAll();
+		return motoristaServico.listarTodos();
 	}
 
 	@ModelAttribute("carrosDisponiveis")
 	public List<Carro> carrosDisponiveis() {
-		return carroRepository.findAllBySituacao(SituacaoDoCarro.DISPONIVEL);
+		return carroServico.getCarrosPelaSituacao(SituacaoDoCarro.DISPONIVEL);
 	}
 }

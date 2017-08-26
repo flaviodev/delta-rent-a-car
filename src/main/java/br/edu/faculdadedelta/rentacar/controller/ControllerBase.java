@@ -1,7 +1,6 @@
 package br.edu.faculdadedelta.rentacar.controller;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,29 +14,25 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.faculdadedelta.rentacar.model.EntidadeBase;
+import br.edu.faculdadedelta.rentacar.services.CRUDServicoBase;
 
 
-public abstract class ControllerBase<ID extends Serializable, E extends EntidadeBase<ID>, R extends JpaRepository<E, ID>> {
+public abstract class ControllerBase<ID extends Serializable, E extends EntidadeBase<ID>, R extends JpaRepository<E, ID>, S extends CRUDServicoBase<ID,E, R>> {
 
 	@Autowired
-	private R repositorio;
+	private S servico;
 	
-	@SuppressWarnings("unchecked")
+	protected final S getServico() {
+		return servico;
+	}
+	
 	@RequestMapping(value = "/novo", method = RequestMethod.GET)
 	public ModelAndView novo() {
 		
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 		
-		E entidade = null;
-		
-		try {
-			entidade = ((Class<E>)((ParameterizedType)this.getClass().
-				       getGenericSuperclass()).getActualTypeArguments()[1]).newInstance();
-			
-		} catch (InstantiationException | IllegalAccessException e) {
-			throw new RuntimeException("Erro ao instanciar a entidade");
-		}
-		
+		E entidade =  servico.obterNovo();
+					
 		mv.addObject(getNomeTemplateEdicao(), entidade);
 		
 		return mv;
@@ -51,10 +46,9 @@ public abstract class ControllerBase<ID extends Serializable, E extends Entidade
 			return mv;
 		}
 		
-		repositorio.save(entidade);
+		servico.salvar(entidade);
 		
 		redirectAttributes.addFlashAttribute("mensagem", getMensagemDeSucessoSalvar());
-		
 
 		return new ModelAndView("redirect:/"+getNomeControlador()+"/novo");
 
@@ -65,15 +59,11 @@ public abstract class ControllerBase<ID extends Serializable, E extends Entidade
 
 		ModelAndView mv = new ModelAndView(getNomeTemplateListagem());
 		
-		List<E> entidades = repositorio.findAll();
+		List<E> entidades = servico.listarTodos();
 		
 		mv.addObject("entidades", entidades);
 		
 		return mv;
-	}
-	
-	protected final R getRepositorio() {
-		return repositorio;
 	}
 	
 	protected abstract String getNomeTemplateListagem();

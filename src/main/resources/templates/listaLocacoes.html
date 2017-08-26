@@ -31,6 +31,9 @@
 								data-toggle="tooltip" data-placement="top" title="Consultar"><i class="zmdi zmdi-eye"></i> Consultar</a>
 							</td>
 						</tr>
+						<tr th:if="${#lists.isEmpty(entidades)}">
+							<td th:colspan="${atributos.length}+1" th:text="'Nenhum registro de '+${nomeEntidade}+' cadastrado!'"></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

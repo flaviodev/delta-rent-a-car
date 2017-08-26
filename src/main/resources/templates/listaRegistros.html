@@ -31,9 +31,12 @@
 								<a class="btn btn-outline-primary" th:href="@{/{controlador}/editar/{id}(controlador = ${controlador},id = ${entidade.id})}"
 									data-toggle="tooltip" data-placement="top" title="Editar"><i class="zmdi zmdi-edit"></i> Editar</a>
 								<a class="btn btn-outline-danger" th:href="@{/{controlador}/excluir/{id}(controlador = ${controlador},id = ${entidade.id})}"
-									data-toggle="tooltip" data-placement="top" title="Excluir"><i class="zmdi zmdi-delete"></i> Excluir</a>
+									data-toggle="tooltip" data-placement="top" title="Excluir" onclick="return confirm('Confirma a exclusão ?')"><i class="zmdi zmdi-delete"></i> Excluir</a>
 							</td>
 						</tr>
+						<tr th:if="${#lists.isEmpty(entidades)}">
+							<td th:colspan="${atributos.length}+1" th:text="'Nenhum registro de '+${nomeEntidade}+' cadastrado!'"></td>
+						</tr>						
 					</tbody>
 				</table>
 			</div>

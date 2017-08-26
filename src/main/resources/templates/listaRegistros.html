@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorator="fragments/layoutPadrao">
 	
-	<head th:replace="fragments/cabecalho :: header"></head>
-	
-	<body class="container">
-		<nav th:replace="fragments/cabecalho :: menu"></nav>
-  		  
-		<div class="card">
 
-			<h4 class="card-header" th:text="'Lista de ' + ${nomeEntidadePlural}"></h4>
+	<section layout:fragment="conteudo">
+  		
+		<div class="card">
+			
+			<h4 th:replace="fragments/cadastro :: cabecalho-card"></h4>
 			
 			<div class="card-body">
+			
 				<div th:replace="fragments/listagem :: mensagens"></div>				
 				
 				<div  class="container">
@@ -41,6 +42,6 @@
 				</table>
 			</div>
 		</div>
-		<br/>
-	</body>
+		
+	</section>
 </html>

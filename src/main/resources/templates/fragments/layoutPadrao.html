@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:fragment="header">
+	<meta charset="UTF-8"/>
+	<title th:text="'Delta rent-a-car' + (${nomeEntidadePlural}!=null? ' - '+ ${nomeEntidadePlural} : '')"></title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" th:href="@{/css/material-design-iconic-font.min.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+
+<body class="container">
+
+<header layout:include="fragments/cabecalho">
+	Cabeçalho
+</header>
+
+<br />
+
+<section layout:fragment="conteudo">
+	Conteudo
+</section>
+
+<br />
+
+<footer class="card-footer text-muted text-center" style="background-color:transparent; margin-top:25px">
+	<p>Delta rent-a-car - Todos os direitos reservados</p>
+</footer>
+
+</body>
+</html>

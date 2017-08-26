@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-	<head th:replace="fragments/cabecalho :: header"></head>	
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorator="fragments/layoutPadrao">
 	
-	<body class="container">
-		<nav th:replace="fragments/cabecalho :: menu"></nav>
+
+	<section layout:fragment="conteudo">
   		
 		<div class="card">
 			
@@ -86,5 +87,5 @@
 				</form>
 			</div>
 		</div>
-	</body>
+	</section>
 </html>

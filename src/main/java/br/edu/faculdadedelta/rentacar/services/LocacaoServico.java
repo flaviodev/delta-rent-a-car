@@ -36,8 +36,18 @@ public class LocacaoServico extends CRUDServicoBase<Long, Locacao, LocacaoReposi
 	}
 
 	private long calculaDiasLocados(Locacao locacao) {
-		if (locacao != null && locacao.getDataDeDevolucao() == null) {
-			long diferenca = Math.abs(new Date().getTime() - locacao.getDataDeLocacao().getTime());
+		
+		if (locacao != null) {
+			
+			Date dataReferencia;
+			
+			if(locacao.getDataDeDevolucao() == null) {
+				dataReferencia = new Date();
+			} else {
+				dataReferencia = locacao.getDataDeDevolucao();
+			}
+			
+			long diferenca = Math.abs(dataReferencia.getTime() - locacao.getDataDeLocacao().getTime());
 			long diferencaEmDias = diferenca / (24 * 60 * 60 * 1000);
 			diferencaEmDias++;
 
@@ -48,7 +58,7 @@ public class LocacaoServico extends CRUDServicoBase<Long, Locacao, LocacaoReposi
 	}
 
 	private BigDecimal calculaValorTotal(Locacao locacao) {
-		if (locacao != null && locacao.getDataDeDevolucao() == null) {
+		if (locacao != null) {
 			long diferenca = calculaDiasLocados(locacao);
 
 			return locacao.getValorDaDiariaContratada().multiply(new BigDecimal(diferenca));
@@ -58,12 +68,10 @@ public class LocacaoServico extends CRUDServicoBase<Long, Locacao, LocacaoReposi
 	}
 
 	public long getDiasLocados(Locacao locacao) {
-
 		return calculaDiasLocados(locacao);
 	}
 
 	public BigDecimal getValorAPagarLocacaoEmAberto(Locacao locacao) {
-
 		return calculaValorTotal(locacao);
 	}
 

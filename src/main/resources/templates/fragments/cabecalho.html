@@ -1,14 +1,7 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-	
-	<head th:fragment="header">
-		<meta charset="UTF-8"/>
-		<title th:text="'Delta rent-a-car' + (${nomeEntidadePlural}!=null? ' - '+ ${nomeEntidadePlural} : '')"></title>
-		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-		<link rel="stylesheet" th:href="@{/css/material-design-iconic-font.min.css}"/>
-		<link rel="stylesheet" th:href="@{/css/style.css}"/>
-	</head>
-	
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	
 	<nav th:fragment="menu" class="navbar navbar-inverse bg-primary navbar-toggleable-md fixed-top">

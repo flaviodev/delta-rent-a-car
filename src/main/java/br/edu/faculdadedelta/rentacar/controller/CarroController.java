@@ -74,4 +74,6 @@ public class CarroController extends CRUDControllerBase<Long, Carro, CarroReposi
 		int qtdLocacoesDoCarro = locacaoRepository.countByCarro(carro);
 		return qtdLocacoesDoCarro > 0 ? "Carro '" +carro.getTextoApresentacaoSimplificado()+ "' não pode ser excluído! Existem locações castrados que utilizam este carro." : null;
 	}
+	
+
 }

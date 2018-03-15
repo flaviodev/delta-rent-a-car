@@ -3,14 +3,18 @@ package br.edu.faculdadedelta.posexemplofdsdev;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.runners.JUnit4;
 
-@RunWith(SpringRunner.class)
+
+@RunWith(JUnit4.class)
 @SpringBootTest
 public class PosExemploFdsdevApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void teste() {
+	
+		assertEquals(1,1);
+		
 	}
 
 }

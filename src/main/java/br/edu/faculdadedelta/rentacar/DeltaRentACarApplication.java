@@ -10,7 +10,6 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 @SpringBootApplication
 public class DeltaRentACarApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(DeltaRentACarApplication.class, args);
 	}

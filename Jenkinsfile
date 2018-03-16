@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
-            args  '--network host -v /var/jenkins_home/.m2:/root/.m2 -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker'
+            args  '--network host -v /var/jenkins_home/.m2:/root/.m2'
         }
     }
     
@@ -43,12 +43,6 @@ pipeline {
             steps {
                 sh 'mvn install -DskipTests'
             }
-        }  
-        
-        stage('Deploy Homolog') {
-            steps {
-                sh 'docker run -d -p 8888:8888 --net host delta-rent-a-car'
-            }
-        }          
+        }         
     }
 }

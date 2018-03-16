@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                sh 'mvn clean package -DskipTests'
             }
         }        
         
@@ -30,6 +30,18 @@ pipeline {
             steps {
                 sh 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=7b382a83406d742776aaab5ec10a15658319f0e7'
             }
-        }           
+        }     
+        
+        stage('Docker Image') {
+            steps {
+                sh 'mvn install -DskipTests'
+            }
+        }   
+        
+        stage('Docker Push') {
+            steps {
+                sh 'mvn deploy -DskipTests'
+            }
+        }  
     }
 }

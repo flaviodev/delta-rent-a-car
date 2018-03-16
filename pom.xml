@@ -6,7 +6,7 @@
 	<groupId>br.edu.faculdadedelta</groupId>
 	<artifactId>delta-rent-a-car</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>Delta Rent a Car</name>
 	<description>Projeto referente trabalho no módulo de Spring MVC</description>
@@ -74,6 +74,67 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<serverId>docker-hub</serverId>
+					<registryUrl>https://index.docker.io/v1/</registryUrl>
+					<imageName>${project.artifactId}</imageName>
+					<baseImage>fabric8/java-centos-openjdk8-jre:latest</baseImage>
+					<resources>
+						<resource>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+					<env>
+						<LANG>en_US.UTF-8</LANG>
+						<AB_OFF>true</AB_OFF>
+						<JAVA_OPTIONS>-XX:+UseConcMarkSweepGC -Dfile.encoding=UTF-8</JAVA_OPTIONS>
+						<JAVA_MAX_MEM_RATIO>70</JAVA_MAX_MEM_RATIO>
+						<JAVA_APP_DIR>/</JAVA_APP_DIR>
+						<JAVA_APP_JAR>${project.build.finalName}.jar</JAVA_APP_JAR>
+						<TZ>America/Sao_Paulo</TZ>
+					</env>
+					<exposes>
+						<expose>8888</expose>
+					</exposes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>build-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>tag-image</id>
+						<phase>package</phase>
+						<goals>
+							<goal>tag</goal>
+						</goals>
+						<configuration>
+							<image>${project.artifactId}</image>
+							<newName>fdsdev/${project.artifactId}</newName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>push-image</id>
+						<phase>install</phase>
+						<goals>
+							<goal>push</goal>
+						</goals>
+						<configuration>
+							<imageName>fdsdev/${project.artifactId}</imageName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
-	</build>
+	</build>	
+	
 </project>

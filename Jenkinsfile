@@ -46,11 +46,13 @@ pipeline {
         }  
         
         stage('Deploy Homolog') {
-           agent {
-              docker {
-                image 'fdsdev/delta-rent-a-car'
-                args  '-d -p 8888:8888 --net host'
-              } 
+           steps {
+               agent {
+                  docker {
+                    image 'fdsdev/delta-rent-a-car'
+                    args  '-d -p 8888:8888 --net host'
+                  } 
+               }
            }
         }         
     }

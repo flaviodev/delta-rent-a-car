@@ -21,7 +21,7 @@ public class Locacao extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -3475674544565344461L;
 	
-	private static final SimpleDateFormat FORMATADOR_DATA =  new SimpleDateFormat("dd/MM/yyyy");
+	private final SimpleDateFormat FORMATADOR_DATA =  new SimpleDateFormat("dd/MM/yyyy");
 	
 	public Locacao() {
 		this.dataDeLocacao = new Date();

@@ -8,7 +8,7 @@ pipeline {
     
     stages {
         
-        stage('Checkout Git repository') {
+        stage('Git') {
            steps {
                 git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'
             }
@@ -19,6 +19,12 @@ pipeline {
                 sh 'mvn clean install -DskipTests'
             }
         }        
+        
+        stage('Teste') {
+            steps {
+                sh 'mvn test'
+            }
+        }  
         
         stage('Sonar') {
             steps {

@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
-            args  '--network host -v /var/jenkins_home/.m2:/root/.m2'
+            args  '--network host -v /var/jenkins_home/.m2:/root/.m2 -v /var/run/docker.sock:/var/run/docker.sock -v /usr/bin/docker:/usr/bin/docker'
         }
     }
     
@@ -46,14 +46,9 @@ pipeline {
         }  
         
         stage('Deploy Homolog') {
-           steps {
-               agent {
-                  docker {
-                    image 'fdsdev/delta-rent-a-car'
-                    args  '-d -p 8888:8888 --net host'
-                  } 
-               }
-           }
-        }         
+            steps {
+                sh 'docker run -d -p 8888:8888 --net host delta-rent-a-car'
+            }
+        }          
     }
 }

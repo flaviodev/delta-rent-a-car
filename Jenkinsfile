@@ -34,6 +34,7 @@ pipeline {
         
         stage('Docker Image') {
             steps {
+                sh 'cp /var/jenkins_home/.m2/settings.xml /var/jenkins_home/workspace/Delta rent-a-car/?/.m2/settings.xml'                
                 sh 'mvn install -DskipTests'
             }
         }   

@@ -58,7 +58,7 @@ public class Locacao extends EntidadeBase<Long> {
 
 	@NotNull(message = "O campo motorista não pode ser vazio!")
 	@ManyToOne
-	private Motorista motorista;
+	private Motorista motorista = new Motorista();
 
 	@NotNull(message = "O campo carro não pode ser vazio!")
 	@ManyToOne

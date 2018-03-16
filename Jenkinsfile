@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean compile -DskipTests'
             }
         }        
         
@@ -35,13 +35,13 @@ pipeline {
         stage('Docker Image') {
             steps {
                 sh 'cp -f /var/jenkins_home/.m2/settings.xml /var/jenkins_home/workspace/Delta\\ rent-a-car/\\?/.m2'                
-                sh 'mvn install -DskipTests'
+                sh 'mvn package -DskipTests'
             }
         }   
         
         stage('Docker Push') {
             steps {
-                sh 'mvn deploy -DskipTests'
+                sh 'mvn install -DskipTests'
             }
         }  
     }

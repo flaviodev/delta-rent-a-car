@@ -8,19 +8,19 @@ pipeline {
     
     stages {
         
-        stage('Git') {
+        stage('Checkout Git') {
            steps {
                 git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'
             }
         }  
 
-        stage('Build') {
+        stage('Build Projeto') {
             steps {
                 sh 'mvn clean compile -DskipTests'
             }
         }        
         
-        stage('Teste') {
+        stage('Testes') {
             steps {
                 sh 'mvn test'
             }
@@ -32,17 +32,23 @@ pipeline {
             }
         }     
         
-        stage('Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 sh 'cp -f /var/jenkins_home/.m2/settings.xml /var/jenkins_home/workspace/Delta\\ rent-a-car/\\?/.m2'                
                 sh 'mvn package -DskipTests'
             }
         }   
         
-        stage('Docker Push') {
+        stage('Push DockerHub') {
             steps {
                 sh 'mvn install -DskipTests'
             }
         }  
+        
+        stage('Deploy Homolog') {
+            steps {
+                sh 'docker run -d -p 8888:8888 --net host delta-rent-a-car'
+            }
+        }         
     }
 }

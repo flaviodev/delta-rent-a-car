@@ -26,7 +26,7 @@ pipeline {
         
         stage('Sonar') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.login=7b382a83406d742776aaab5ec10a15658319f0e7'
+                sh 'mvn sonar:sonar mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=f113fbd6878f37ac884bf4ef0d4b39a56881d7c7'
                 input 'Qualidade aprovada?';   
             }
         }     
@@ -40,7 +40,7 @@ pipeline {
         
         stage('Push DockerHub') {
             steps {
-                sh 'mvn install -DskipTests'
+                //sh 'mvn install -DskipTests'
             }
         }         
     }

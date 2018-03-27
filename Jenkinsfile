@@ -37,11 +37,5 @@ pipeline {
                 input 'Publicar imagem no docker hub?';                  
             }
         }   
-        
-        stage('Push DockerHub') {
-            steps {
-                sh 'echo "mvn install -DskipTests"'
-            }
-        }         
     }
 }

@@ -1,11 +1,9 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args  '--network host -v /var/jenkins_home/.m2:/root/.m2'
-        }
+    agent any
+    tools {
+        maven 'Maven 3.5.3'
+        jdk 'jdk8'
     }
-    
     stages {
         
         stage('Checkout Git') {
@@ -35,7 +33,6 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                sh 'cp -f /var/jenkins_home/.m2/settings.xml /var/jenkins_home/workspace/Delta\\ rent-a-car/\\?/.m2'                
                 sh 'mvn package -DskipTests'
                 input 'Publicar imagem no docker hub?';                  
             }

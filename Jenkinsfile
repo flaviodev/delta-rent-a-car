@@ -40,7 +40,7 @@ pipeline {
         
         stage('Push DockerHub') {
             steps {
-                //sh 'mvn install -DskipTests'
+                sh 'echo "mvn install -DskipTests"'
             }
         }         
     }

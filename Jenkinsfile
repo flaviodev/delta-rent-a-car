@@ -33,11 +33,13 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                withCredentials([file(credentialsId: 'm2-settings', variable: 'FILE')]) {
-                   sh 'cat $FILE'
+                 withCredentials([file(credentialsId: 'settings', variable: 'FILE')]) {
+                     sh 'use $FILE';
+                     sh 'cat $FILE';
+                 }
+                 sh 'mvn package -DskipTests';
+                 input 'Publicar imagem no docker hub?';                  
                 }
-                sh 'mvn package -DskipTests';
-                input 'Publicar imagem no docker hub?';                  
             }
         }   
     }

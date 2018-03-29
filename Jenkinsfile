@@ -1,9 +1,8 @@
 pipeline {
-    agent any
+    agent docker
     tools {
         maven 'mvn3'
         jdk 'jdk8'
-        docker 'docker'
     }
     stages {
         

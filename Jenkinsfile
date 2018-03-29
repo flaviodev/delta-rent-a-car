@@ -34,6 +34,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
+                   sh 'cp -f settings.xml /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/mvn3/conf';
                    sh 'mvn package -DskipTests -Ddocker.hub.password=$PASSWORD';
                    input 'Publicar imagem no docker hub?';
                 } 

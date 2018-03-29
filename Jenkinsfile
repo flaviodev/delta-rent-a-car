@@ -39,7 +39,6 @@ pipeline {
                  }
                  sh 'mvn package -DskipTests';
                  input 'Publicar imagem no docker hub?';                  
-                }
             }
         }   
     }

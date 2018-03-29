@@ -34,11 +34,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
-                   sh 'cat settings.xml' 
-                   sh 'mvn package -DskipTests';
+                   sh 'mvn package -DskipTests -Ddocker.hub.password=$PASSWORD';
                    input 'Publicar imagem no docker hub?';
-               
-               } 
+                } 
             }
         }   
     }

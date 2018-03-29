@@ -33,7 +33,8 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                sh 'mvn package -DskipTests'
+                sh 'cat Jenkinsfile';
+                sh 'mvn package -DskipTests';
                 input 'Publicar imagem no docker hub?';                  
             }
         }   

@@ -34,7 +34,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
-                   sh 'cp -f settings.xml /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/mvn3/conf';
+                   sh 'rm -rf /var/jenkins_home/workspace/Delta\ rent-a-car/.m2'
+                   sh 'rm mkdir /var/jenkins_home/workspace/Delta\ rent-a-car/.m2'
+                   sh 'cp -f settings.xml /var/jenkins_home/workspace/Delta\ rent-a-car/.m2';
                    sh 'mvn package -DskipTests -Ddocker.hub.password=$PASSWORD';
                    input 'Publicar imagem no docker hub?';
                 } 

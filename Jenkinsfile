@@ -33,7 +33,9 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                sh 'cat Jenkinsfile';
+                withCredentials([file(credentialsId: 'm2-settings', variable: 'FILE')]) {
+                   sh 'cat $FILE'
+                }
                 sh 'mvn package -DskipTests';
                 input 'Publicar imagem no docker hub?';                  
             }

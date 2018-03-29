@@ -33,8 +33,12 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-               sh 'mvn package -DskipTests';
-               input 'Publicar imagem no docker hub?';                  
+               withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
+                   sh 'cat settings.xml'; 
+                   sh 'mvn package -DskipTests';
+                   input 'Publicar imagem no docker hub?';
+               
+               } 
             }
         }   
     }

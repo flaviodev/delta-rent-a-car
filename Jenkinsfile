@@ -33,6 +33,7 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
+               sh 'export DOCKER_HOST="tcp://192.168.1.100:2376"'
                withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
                    sh 'rm -rf /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
                    sh 'mkdir /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'

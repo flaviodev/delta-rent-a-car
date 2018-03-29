@@ -3,7 +3,6 @@
 		<server>
 		    <id>docker-hub</id>
 		    <username>fdsdev</username>
-		    <password>${PASSWORD}</password>
 		    <configuration>
 		      <email>fdsdev@gmail.com</email>
 		    </configuration>

@@ -33,7 +33,6 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-               sh 'docker ps'
                withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
                    sh 'rm -rf /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
                    sh 'mkdir /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
@@ -41,6 +40,17 @@ pipeline {
                    sh 'mvn package -DskipTests -Ddocker.hub.password=${PASSWORD}';
                    input 'Publicar imagem no docker hub?';
                 } 
+            }
+        }   
+        
+        stage('Push DockerHub') {
+            steps {
+               withCredentials([string(credentialsId: 'fdsdev-docker-hub', variable: 'PASSWORD')]) {
+                   sh 'rm -rf /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
+                   sh 'mkdir /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
+                   sh 'cp -f settings.xml /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2';
+                   sh 'mvn install -DskipTests -Ddocker.hub.password=${PASSWORD}';
+               }
             }
         }   
     }

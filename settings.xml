@@ -8,5 +8,13 @@
 		      <email>fdsdev@gmail.com</email>
 		    </configuration>
 		</server>
+		<server>
+		    <id>nexus</id>
+		    <username>admin</username>
+		    <password>${nexus.password}</password>
+		    <configuration>
+		      <email>fdsdev@gmail.com</email>
+		    </configuration>
+		</server>		
 	</servers>
 </settings>

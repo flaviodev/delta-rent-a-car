@@ -26,7 +26,7 @@ pipeline {
         
         stage('Sonar') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=1d56dbaa3dbc806238bdc82a31031ccf7b47de0b'
+                sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=eb721fd48d301531a2469bc287fd22f0adfd2809'
                 input 'Qualidade aprovada?';   
             }
         }     

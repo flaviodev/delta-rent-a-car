@@ -52,6 +52,17 @@ pipeline {
                    sh 'mvn install -DskipTests -Ddocker.hub.password=${PASSWORD}';
                }
             }
-        }   
+        } 
+        
+        stage('Push Nexus') {
+            steps {
+               withCredentials([string(credentialsId: 'fdsdev-nexus', variable: 'PASSWORD')]) {
+                   sh 'rm -rf /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
+                   sh 'mkdir /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2'
+                   sh 'cp -f settings.xml /var/jenkins_home/workspace/Delta\\ rent-a-car/.m2';
+                   sh 'mvn install -DskipTests -Dnexus.password=${PASSWORD}';
+               }
+            }
+        }           
     }
 }

@@ -1,7 +1,7 @@
 <settings>
 	<servers>
 		<server>
-		    <id>nexus</id>
+		    <id>nexus-container-registry</id>
 		    <username>admin</username>
 		    <password>${nexus.password}</password>
 		</server>		

@@ -95,8 +95,8 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.0.0</version>
 				<configuration>
-					<serverId>docker-hub</serverId>
-					<registryUrl>https://index.docker.io/v1/</registryUrl>
+					<serverId>nexus</serverId>
+					<registryUrl>https://192.168.1.100:9443</registryUrl>
 					<imageName>${project.artifactId}</imageName>
 					<baseImage>fabric8/java-centos-openjdk8-jre:latest</baseImage>
 					<resources>
@@ -134,7 +134,7 @@
 						</goals>
 						<configuration>
 							<image>${project.artifactId}</image>
-							<newName>fdsdev/${project.artifactId}</newName>
+							<newName>192.168.1.100:9443/${project.artifactId}</newName>
 						</configuration>
 					</execution>
 					<execution>
@@ -144,7 +144,7 @@
 							<goal>push</goal>
 						</goals>
 						<configuration>
-							<imageName>fdsdev/${project.artifactId}</imageName>
+							<imageName>192.168.1.100:9443/${project.artifactId}</imageName>
 						</configuration>
 					</execution>
 				</executions>

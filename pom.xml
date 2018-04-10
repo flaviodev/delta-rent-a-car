@@ -96,7 +96,7 @@
 				<version>1.0.0</version>
 				<configuration>
 					<serverId>nexus-container-registry<</serverId>
-					<registryUrl>https://192.168.1.100:9443</registryUrl>
+                                        <registryUrl>https://192.168.1.100:9443</registryUrl>
 					<imageName>${project.artifactId}</imageName>
 					<baseImage>fabric8/java-centos-openjdk8-jre:latest</baseImage>
 					<resources>

@@ -1,9 +1,9 @@
 <settings>
-	<servers>
-		<server>
-		    <id>nexus-container-registry</id>
-		    <username>admin</username>
-		    <password>${nexus.password}</password>
-		</server>		
-	</servers>
+   <servers>
+      <server>
+         <id>nexus-container-registry</id>
+         <username>admin</username>
+         <password>${nexus.password}</password>
+      </server>		
+   </servers>
 </settings>

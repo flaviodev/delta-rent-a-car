@@ -1,14 +1,6 @@
 <settings>
 	<servers>
 		<server>
-		    <id>docker-hub</id>
-		    <username>fdsdev</username>
-		    <password>${docker.hub.password}</password>
-		    <configuration>
-		      <email>fdsdev@gmail.com</email>
-		    </configuration>
-		</server>
-		<server>
 		    <id>nexus</id>
 		    <username>admin</username>
 		    <password>${nexus.password}</password>

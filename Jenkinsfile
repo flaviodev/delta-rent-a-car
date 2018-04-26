@@ -41,6 +41,15 @@ pipeline {
                            body: "Please go to ${env.BUILD_URL}.")
                      input 'Qualidade aprovada?'   
                   } 
+                    
+                  response = httpRequest 'http://192.168.1.100:9000/api/measures/search_history?component=br.edu.faculdadedelta:delta-rent-a-car&metrics=coverage'  
+                    
+                  def historicoCobertura = readJSON text : response.content
+                  
+                  if(historicoCobertura.measures!=null &&  historicoCobertura.measures.length > 0) {
+                     def ultimaMetrica =  historicoCobertura.measures[0].history[historicoCobertura.measures[0].history.length-1]
+                     echo ultimaMetrica.value
+                  }
                }
             }
         }     

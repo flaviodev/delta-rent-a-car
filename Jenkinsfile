@@ -28,12 +28,13 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
                    sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
-                   script { 
-                      def sonarIssues = httpRequest "http://localhost:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car";
+                }
+                
+                script { 
+                  def response = httpRequest 'http://localhost:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
 
-                      echo "Sonar result: "+ sonarIssues.total;
-                   }
-                   input 'Qualidade aprovada?';   
+                  echo "Sonar result: "+ response.total;
+                  input 'Qualidade aprovada?';   
                 }
             }
         }     

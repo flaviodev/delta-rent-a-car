@@ -1,4 +1,4 @@
-class deployhub {
+class httpRequest {
     String body="";    
     String message="";    
     String cookie="";   

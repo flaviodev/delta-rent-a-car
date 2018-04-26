@@ -1,4 +1,13 @@
-import groovy.json.JsonSlurperClassic
+import groovy.json.JsonSlurper
+
+@NonCPS
+def parseJsonText(String json) {
+  def object = new JsonSlurper().parseText(json)
+  if(object instanceof groovy.json.internal.LazyMap) {
+      return new HashMap<>(object)
+  }
+  return object
+}
 
 pipeline {
     agent any
@@ -34,11 +43,11 @@ pipeline {
                 script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
 
-                  def json = new JsonSlurperClassic().parseText(response.content)
+                  def issues = parseJsonText(response.content)
 
-                  echo "Sonar result: "+ json.total 
+                  echo "Sonar total blocker and critical issues: "+ issues.total 
 
-                  if(json.total  > 0) {
+                  if(issues.total  > 0) {
                       mail (to: 'fdsdev@gmail.com',
                            subject: "Qualidade falhou '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
                            body: "Please go to ${env.BUILD_URL}.")

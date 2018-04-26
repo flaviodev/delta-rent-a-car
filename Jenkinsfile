@@ -35,7 +35,7 @@ pipeline {
                 script { 
                   def response = httpRequest  authentication: '${TOKEN}', url: 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
                   
-                  def json = new JsonSlurper().parseText(response.content)
+                  def json = new JsonSlurperClassic().parseText(response.content)
                     
                   echo "Sonar result: "+ json.total 
                     

@@ -31,7 +31,7 @@ pipeline {
                 }
                 
                 script { 
-                  def response = httpRequest 'http://localhost:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
+                  def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
 
                   echo "Sonar result: "+ response.total;
                   input 'Qualidade aprovada?';   

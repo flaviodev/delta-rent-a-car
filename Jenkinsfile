@@ -2,10 +2,7 @@ import groovy.json.JsonSlurper
 
 def parseJsonText(String json) {
   def object = new JsonSlurper().parseText(json)
-  if(object instanceof groovy.json.internal.LazyMap) {
-      return new HashMap<>(object)
-  }
-  return object
+  return new HashMap<>(object)
 }
 
 pipeline {

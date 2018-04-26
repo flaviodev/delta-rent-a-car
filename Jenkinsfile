@@ -39,11 +39,9 @@ pipeline {
                     
                   echo "Sonar result: "+ json.total
                     
-                  if(Integer.parseInt(json.total) > 0) {
+                  if(json.total> 0) {
                      input 'Qualidade aprovada?'   
-                  } else {
-                     echo 'Qualidade OK!' 
-                  }
+                  } 
                 }
             }
         }     

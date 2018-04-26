@@ -44,12 +44,10 @@ pipeline {
         
         stage('e-mail') {
             steps {
-                try{
-                    mail bcc: '', body: msgSonarGateway +  "</br> Link <a href='${env.BUILD_URL}input'>${env.BUILD_URL}input</a>" , cc: '', charset: 'UTF-8', from: 'appflaviodev@gmail.com', mimeType: 'text/html', replyTo: '', subject: 'Análise Sonar', to: 'fdsdev@gmail.com'
-                }catch(Exception e){
-                    echo "Falha no envio de email"
-                }            
-            }
+                 mail (to: 'fdsdev@gmail.com',
+                       subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
+                       body: "Please go to ${env.BUILD_URL}.");
+           }
         }
     }
 }

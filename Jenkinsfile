@@ -1,10 +1,5 @@
 import groovy.json.JsonSlurper
 
-def parseJsonText(String json) {
-  def object = new JsonSlurper().parseText(json)
-  return new HashMap<>(object)
-}
-
 pipeline {
     agent any
     tools {
@@ -39,9 +34,7 @@ pipeline {
                 script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
 
-                  def issues = parseJsonText(response.content)
-
-                  echo "Sonar total blocker and critical issues: "+ issues.total 
+                  def issues = new JsonSlurper().parseText(response.content)
 
                   if(issues.total  > 0) {
                       mail (to: 'fdsdev@gmail.com',

@@ -30,19 +30,22 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
                    sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
-                }
                 
-                script { 
-                  def response = httpRequest  authentication: '${TOKEN}', url: 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
-                  
-                  def json = new JsonSlurperClassic().parseText(response.content)
-                    
-                  echo "Sonar result: "+ json.total 
-                    
-                  if(json.total  > 0) {
-                     input 'Qualidade aprovada?'   
-                  } 
-                }
+                   script { 
+                      def response = httpRequest  authentication: '${TOKEN}', url: 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
+
+                      def json = new JsonSlurperClassic().parseText(response.content)
+
+                      echo "Sonar result: "+ json.total 
+
+                      if(json.total  > 0) {
+                          mail (to: 'fdsdev@gmail.com',
+                               subject: "Qualidade falhou '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
+                               body: "Please go to ${env.BUILD_URL}.")
+                         input 'Qualidade aprovada?'   
+                      } 
+                  }
+               }
             }
         }     
         

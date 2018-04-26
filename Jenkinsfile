@@ -46,8 +46,9 @@ pipeline {
                     
                   def historicoCobertura = readJSON text : response.content
                   
-                  if(historicoCobertura.measures!=null &&  historicoCobertura.measures.length > 0) {
-                     def ultimaMetrica =  historicoCobertura.measures[0].history[historicoCobertura.measures[0].history.length-1]
+                  if(historicoCobertura.measures.length > 0) {
+                     def posicaoUltima = historicoCobertura.measures[0].history.length - 1
+                     def ultimaMetrica =  historicoCobertura.measures[0].history[posicaoUltima]
                      echo ultimaMetrica.value
                   }
                }

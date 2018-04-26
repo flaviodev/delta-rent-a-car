@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 pipeline {
     agent any
     tools {
@@ -32,9 +34,15 @@ pipeline {
                 
                 script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
-
-                  echo "Sonar result: "+ response;
-                  input 'Qualidade aprovada?';   
+                  
+                  def json = new JsonSlurper().parseText(response.content)
+                    
+                  echo "Sonar result: "+ json.total;
+                    
+                  if(json.total > 0)
+                     input 'Qualidade aprovada?';   
+                  else
+                     echo "Qualidade OK!"; 
                 }
             }
         }     

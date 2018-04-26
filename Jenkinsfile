@@ -1,4 +1,4 @@
-import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 
 pipeline {
     agent any
@@ -33,15 +33,13 @@ pipeline {
                 }
                 
                 script { 
-                  def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
+                  def response = httpRequest  authentication: '${TOKEN}', url: 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
                   
                   def json = new JsonSlurper().parseText(response.content)
                     
-                  def totalIssues =  json.total 
+                  echo "Sonar result: "+ json.total 
                     
-                  echo "Sonar result: "+ totalIssues
-                    
-                  if(totalIssues > 0) {
+                  if(json.total  > 0) {
                      input 'Qualidade aprovada?'   
                   } 
                 }

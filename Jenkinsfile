@@ -37,12 +37,13 @@ pipeline {
                   
                   def json = new JsonSlurper().parseText(response.content)
                     
-                  echo "Sonar result: "+ json.total;
+                  echo "Sonar result: "+ json.total
                     
-                  if(json.total > 0)
-                     input 'Qualidade aprovada?';   
-                  else
-                     echo "Qualidade OK!"; 
+                  if(json.total > 0) {
+                     input 'Qualidade aprovada?'   
+                  } else {
+                     echo 'Qualidade OK!' 
+                  }
                 }
             }
         }     

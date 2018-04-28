@@ -55,6 +55,25 @@ pipeline {
             }
         }     
         
+        stage('Checkout Sonar-util') {
+           steps {
+                git branch: 'master', url: 'https://github.com/flaviodev/sonar-util.git'
+            }
+        }  
+
+        stage('Build Sonar-util') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }        
+        
+        stage('Verificar Qualidade') {
+            steps {
+                sh 'java -cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonar.VerifySeverityIssues 192.168.1.100:9000  BLOCKER,CRITICAL  br.edu.faculdadedelta:delta-rent-a-car'
+            }
+        }          
+        
+        
         stage('Push Nexus') {
             steps {
                withCredentials([string(credentialsId: 'fdsdev-nexus', variable: 'PASSWORD')]) {

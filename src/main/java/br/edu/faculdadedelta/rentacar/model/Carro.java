@@ -26,7 +26,7 @@ public class Carro extends EntidadeBase<Long> {
 	
 	public Carro() {
 		situacao = SituacaoDoCarro.DISPONIVEL;
-		this.valorDaDiaria = null;
+		this.valorDaDiaria = BigDecimal.ZERO;
 	}
 
 	public Carro(Long id, String placa, String chassi, BigDecimal valorDaDiaria, Modelo modelo,

@@ -25,7 +25,6 @@ public class Locacao extends EntidadeBase<Long> {
 	
 	public Locacao() {
 		this.dataDeLocacao = new Date();
-		this.carro = null;
 	}
 
 	public Locacao(Long id, BigDecimal valorDaDiariaContratada, BigDecimal valorTotal, Date dataDeLocacao,
@@ -61,7 +60,7 @@ public class Locacao extends EntidadeBase<Long> {
 	@ManyToOne
 	private Motorista motorista = new Motorista();
 
-	@NotNull(message = "O campo carro não pode ser vazio!")
+	//@NotNull(message = "O campo carro não pode ser vazio!")
 	@ManyToOne
 	private Carro carro;
 	

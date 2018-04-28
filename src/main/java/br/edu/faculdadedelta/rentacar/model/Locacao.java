@@ -25,6 +25,7 @@ public class Locacao extends EntidadeBase<Long> {
 	
 	public Locacao() {
 		this.dataDeLocacao = new Date();
+		this.carro = null;
 	}
 
 	public Locacao(Long id, BigDecimal valorDaDiariaContratada, BigDecimal valorTotal, Date dataDeLocacao,

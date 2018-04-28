@@ -6,14 +6,6 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-       /* stage('sonar-util') {
-           steps {
-               git branch: 'master', url: 'https://github.com/flaviodev/sonar-util.git'
-               sh 'mvn clean install'
-               sh 'cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar /tmp'
-           }
-        }*/
-         
         stage('Build') {
            steps {
                git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'
@@ -54,8 +46,6 @@ pipeline {
             }
         }     
         
-
-        
         stage('Push Nexus') {
             steps {
                withCredentials([string(credentialsId: 'fdsdev-nexus', variable: 'PASSWORD')]) {
@@ -63,14 +53,6 @@ pipeline {
                    sh 'mvn install -DskipTests -Dnexus.password=${PASSWORD}';
                }
             }
-        }
-        
-        stage('e-mail') {
-            steps {
-                 mail (to: 'fdsdev@gmail.com',
-                       subject: "Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
-                       body: "Please go to ${env.BUILD_URL}.");
-           }
         }
     }
 }

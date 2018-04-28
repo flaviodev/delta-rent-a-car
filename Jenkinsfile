@@ -6,13 +6,13 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-        stage('sonar-util') {
+       /* stage('sonar-util') {
            steps {
                git branch: 'master', url: 'https://github.com/flaviodev/sonar-util.git'
                sh 'mvn clean install'
                sh 'cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar /tmp'
            }
-        }
+        }*/
          
         stage('Build') {
            steps {
@@ -50,8 +50,7 @@ pipeline {
                   }
                }
                */
-               sh 'java -cp /tmp/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonar.VerifySeverityIssues 192.168.1.100:9000  BLOCKER,CRITICAL  br.edu.faculdadedelta:delta-rent-a-car'
-               sh 'rm -rf /tmp/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
+               sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonar.VerifySeverityIssues 192.168.1.100:9000  BLOCKER,CRITICAL  br.edu.faculdadedelta:delta-rent-a-car'
             }
         }     
         

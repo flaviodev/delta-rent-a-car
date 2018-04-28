@@ -42,7 +42,7 @@ pipeline {
                   }
                }
                */
-               sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonar.VerifySeverityIssues sonarConfig.yml'
+               sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml'
                
             }
         }     

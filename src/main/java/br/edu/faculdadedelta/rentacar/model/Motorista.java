@@ -17,7 +17,9 @@ public class Motorista extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -1466345548885235261L;
 	
-	public Motorista() {}
+	public Motorista() {
+		sexo = null;
+	}
 
 	public Motorista(Long id, String nome, String cpf, String cnh) {
 		this.id = id;

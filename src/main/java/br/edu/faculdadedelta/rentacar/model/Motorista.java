@@ -17,9 +17,7 @@ public class Motorista extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -1466345548885235261L;
 	
-	public Motorista() {
-		sexo = null;
-	}
+	public Motorista() {}
 
 	public Motorista(Long id, String nome, String cpf, String cnh) {
 		this.id = id;
@@ -41,7 +39,6 @@ public class Motorista extends EntidadeBase<Long> {
 	@NotBlank(message = "O campo CNH não pode ser vazio!")
 	private String cnh;
 
-	@NotNull(message = "O campo sexo não pode ser vazio!")
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 	

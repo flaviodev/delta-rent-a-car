@@ -10,7 +10,7 @@ pipeline {
            steps {
                git branch: 'master', url: 'https://github.com/flaviodev/sonar-util.git'
                sh 'mvn clean install'
-               sh cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar /tmp
+               sh 'cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar /tmp'
            }
         }
          

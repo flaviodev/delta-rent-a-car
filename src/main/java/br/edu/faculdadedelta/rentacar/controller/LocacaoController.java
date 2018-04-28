@@ -28,6 +28,7 @@ import br.edu.faculdadedelta.rentacar.services.MotoristaServico;
 public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepository, LocacaoServico> {
 
 	protected static final String NOME_CONTROLADOR = "locacoes";
+	private static final String IS_CONSULTA = "isConsulta";
 
 	@Autowired
 	private MotoristaServico motoristaServico;
@@ -80,7 +81,7 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 	public ModelAndView novo() {
 		ModelAndView mv = super.novo();
 
-		mv.addObject("isConsulta", false);
+		mv.addObject(IS_CONSULTA, false);
 
 		return mv;
 	}
@@ -106,7 +107,7 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 
 		mv.addObject(getNomeTemplateEdicao(), locacao);
-		mv.addObject("isConsulta", true);
+		mv.addObject(IS_CONSULTA, true);
 
 		mv.addObject("diasLocados", getServico().getDiasLocados(locacao));
 		mv.addObject("valorAPagar", getServico().getValorAPagarLocacaoEmAberto(locacao));
@@ -122,7 +123,7 @@ public class LocacaoController extends ControllerBase<Long, Locacao, LocacaoRepo
 		ModelAndView mv = new ModelAndView(getNomeTemplateEdicao());
 
 		mv.addObject(getNomeTemplateEdicao(), locacao);
-		mv.addObject("isConsulta", true);
+		mv.addObject(IS_CONSULTA, true);
 
 		getServico().registrarDevolucao(locacao);
 

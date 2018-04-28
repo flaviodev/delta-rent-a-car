@@ -6,22 +6,19 @@ pipeline {
         jdk 'jdk8'
     }
     stages {
-        
-        stage('Checkout Git') {
+        stage('sonar-util') {
            steps {
-                git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'
-            }
-        }  
-
-        stage('Build Projeto') {
-            steps {
-                sh 'mvn clean compile -DskipTests'
-            }
-        }        
-        
-        stage('Testes') {
-            steps {
-                sh 'mvn test'
+               git branch: 'master', url: 'https://github.com/flaviodev/sonar-util.git'
+               sh 'mvn clean install'
+               sh cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar /tmp
+           }
+        }
+         
+        stage('Build') {
+           steps {
+               git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'
+               sh 'mvn clean compile -DskipTests'
+               sh 'mvn test'
             }
         }  
         
@@ -30,7 +27,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
                    sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
                 }
-                script { 
+               /* script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
 
                   def issues = readJSON text : response.content
@@ -52,27 +49,13 @@ pipeline {
                      echo ultimaMetrica.value
                   }
                }
+               */
+               sh 'java -cp /tmp/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonar.VerifySeverityIssues 192.168.1.100:9000  BLOCKER,CRITICAL  br.edu.faculdadedelta:delta-rent-a-car'
+               sh 'rm -rf /tmp/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
             }
         }     
         
-        stage('Checkout Sonar-util') {
-           steps {
-                git branch: 'master', url: 'https://github.com/flaviodev/sonar-util.git'
-            }
-        }  
 
-        stage('Build Sonar-util') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }        
-        
-        stage('Verificar Qualidade') {
-            steps {
-                sh 'java -cp target/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonar.VerifySeverityIssues 192.168.1.100:9000  BLOCKER,CRITICAL  br.edu.faculdadedelta:delta-rent-a-car'
-            }
-        }          
-        
         
         stage('Push Nexus') {
             steps {

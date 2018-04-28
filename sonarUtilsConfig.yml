@@ -1,0 +1,35 @@
+projeto: br.edu.faculdadedelta:delta-rent-a-car
+
+sonar:
+  urlServico: http://192.168.1.100:9000
+  
+avaliacaoDaQualidade:
+  issues:
+     avaliarOcorrenciaDeProblemas: true
+     filtrarPelasGravidades: BLOCKER,CRITICAL
+     lancarExcecao: true
+  
+  bugs:
+     avaliarOcorrenciaDeBugs: true
+     lancarExcecao: true
+  
+  vulnerabilities: 
+     avaliarOcorrenciaDeVulnerabilidades: true
+     lancarExcecao: true
+  
+  complexity:
+     avaliarEvolucaoDaComplexidade: true
+     notificarSeComplexidadeAumentarEmRelacaoAMedia: 0.10
+  
+  coverage:
+     avaliarEvolucaoDaCoberturaDeTestes: true
+     notificarSeCoberturaDimunirEmRelacaoAMedia: 0.10
+  
+  codeSmells:
+     avaliarEvolucaoDeCodeSmells: true
+     notificarSeCodeSmellsAumentouEmRelacaoAMedia: 0.10
+  
+  duplications:
+     avaliarEvolucaoDuplicacoes: true
+     notificarSeDuplicacaoAumentouEmRelacaoAMedia: 0.10
+

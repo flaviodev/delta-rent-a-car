@@ -6,7 +6,7 @@ sonar:
 avaliacaoDaQualidade:
   issues:
      avaliarOcorrenciaDeProblemas: true
-     filtrarPelasGravidades: BLOCKER,CRITICAL,MAJOR
+     filtrarPelasGravidades: BLOCKER,CRITICAL
      lancarExcecao: true
   
   bugs:

@@ -54,7 +54,7 @@ public class Carro extends EntidadeBase<Long> {
 	@NumberFormat(pattern = "#,##0.00")
 	private BigDecimal valorDaDiaria;
 	
-	@NotNull(message = "O campo fabricante não pode ser vazio!")
+	//@NotNull(message = "O campo fabricante não pode ser vazio!")
 	@ManyToOne
 	private Modelo modelo;
 	

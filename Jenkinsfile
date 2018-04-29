@@ -16,9 +16,24 @@ pipeline {
         
         stage('Sonar') {
             steps {
-                withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
-                   sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
-                }
+               
+
+                withSonarQubeEnv('My SonarQube Server') {
+                   withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
+                      sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
+                   }
+
+
+                    timeout(time: 1, unit: 'HOURS') {
+                        // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                        // true = set pipeline to UNSTABLE, false = don't
+                        // Requires SonarQube Scanner for Jenkins 2.7+
+                        waitForQualityGate abortPipeline: true
+                    } 
+               }
+                
+               sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml'                
+                
                /* script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
 
@@ -42,16 +57,6 @@ pipeline {
                   }
                }
                */
-                 withSonarQubeEnv('My SonarQube Server') {
-                    timeout(time: 1, unit: 'HOURS') {
-                        // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                        // true = set pipeline to UNSTABLE, false = don't
-                        // Requires SonarQube Scanner for Jenkins 2.7+
-                        waitForQualityGate abortPipeline: true
-                    } 
-                 }
-                
-               sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml'
                
             }
         }     

@@ -28,8 +28,9 @@ pipeline {
                }
                 
                sleep time: 20, unit: 'SECONDS'
-               withCredentials([string(credentialsId: 'sonar-user', variable: 'CREDENCIAIS')]) {
-                    sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml ${CREDENCIAIS}'
+               withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonar-user',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml ${USERNAME} ${PASSWORD}'
                }
                /* script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'

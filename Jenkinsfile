@@ -18,7 +18,7 @@ pipeline {
             steps {
                
 
-                withSonarQubeEnv('My SonarQube Server') {
+                withSonarQubeEnv('sonar-rancher') {
                    withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
                       sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
                    }

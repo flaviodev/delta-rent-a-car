@@ -22,16 +22,15 @@ pipeline {
                    withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
                       sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
                    }
-
-
-                    timeout(time: 1, unit: 'HOURS') {
-                        // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                        // true = set pipeline to UNSTABLE, false = don't
-                        // Requires SonarQube Scanner for Jenkins 2.7+
-                        withSonarQubeEnv('sonar-rancher')  {
-                             waitForQualityGate abortPipeline: true
+               }
+               
+               script { 
+                    timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+                        def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
-                    } 
+                    }
                }
                 
                sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml'                

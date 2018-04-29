@@ -24,15 +24,17 @@ pipeline {
                    }
                }
 
-               script { 
+               /*script { 
                     timeout(time: 5, unit: 'MINUTES') { // Just in case something goes wrong, pipeline will be killed after a timeout
                         def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
                         if (qg.status != 'OK') {
                             error "Pipeline aborted due to quality gate failure: ${qg.status}"
                         }
                     }
-               }
-
+               }*/
+                
+               sleep time: 20, unit: 'SECONDS'
+               
                sh 'java -cp /var/jenkins_home/.m2/repository/br/com/flaviodev/sonar-util/0.0.1-SNAPSHOT/sonar-util-0.0.1-SNAPSHOT-jar-with-dependencies.jar  br.com.flaviodev.sonarutils.AvaliadorDeMetricas sonarUtilsConfig.yml'                
                /* script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'

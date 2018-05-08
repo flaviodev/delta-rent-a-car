@@ -32,29 +32,6 @@ pipeline {
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                     sh 'java -cp /var/jenkins_home/.m2/repository/br/com/syncode/sonar-utils/0.0.1-SNAPSHOT/sonar-utils-0.0.1-SNAPSHOT-jar-with-dependencies  br.com.syncode.sonarutils.ValidadorDeMetasDeQualidade http://192.168.1.100:9000 br.edu.faculdadedelta:delta-rent-a-car ${USERNAME} ${PASSWORD}'
                }
-               /* script { 
-                  def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'
-
-                  def issues = readJSON text : response.content
-
-                  if(issues.total  > 0) {
-                      mail (to: 'fdsdev@gmail.com',
-                           subject: "Qualidade falhou '${env.JOB_NAME}' (${env.BUILD_NUMBER}) is waiting for input",
-                           body: "Please go to ${env.BUILD_URL}.")
-                     input 'Qualidade aprovada?'   
-                  } 
-                    
-                  response = httpRequest 'http://192.168.1.100:9000/api/measures/search_history?component=br.edu.faculdadedelta:delta-rent-a-car&metrics=coverage'  
-                    
-                  def historicoCobertura = readJSON text : response.content
-                  
-                  if(historicoCobertura.measures.size() > 0) {
-                     def posicaoUltima = historicoCobertura.measures[0].history.size() - 1
-                     def ultimaMetrica =  historicoCobertura.measures[0].history[posicaoUltima]
-                     echo ultimaMetrica.value
-                  }
-               }
-               */
             }
         }     
         

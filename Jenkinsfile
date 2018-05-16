@@ -71,7 +71,7 @@ pipeline {
             steps {
              sshagent (credentials: ['homolog-ssh']) {
                 sh 'ssh -p 922 root@192.168.1.100';
-                sh 'docker rm -f 192.168.1.100:9443/delta-rent-a-car';
+                sh 'docker rm -f delta-rent-a-car';
                 sh 'docker run -d -p 9888:8888 --name delta-rent-a-car 192.168.1.100:9443/delta-rent-a-car';
                 sh 'exit';
               }

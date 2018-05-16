@@ -70,7 +70,7 @@ pipeline {
         stage('Deploy Homolog') {
             steps {
              sshagent (credentials: ['homolog-ssh']) {
-                sh 'ssh -p 922 root@192.168.1.100';
+                sh 'ssh -o StrictHostKeyChecking=no -p 922 root@192.168.1.100';
                 sh 'ls /etc/ssh';
                 sh 'docker';
                 sh 'exit';

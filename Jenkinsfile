@@ -30,7 +30,7 @@ pipeline {
                sleep time: 20, unit: 'SECONDS'
                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonar-user',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "java -cp /var/jenkins_home/workspace/Sonar\ utils/target/sonar-utils-0.0.1-SNAPSHOT-jar-with-dependencies br.com.syncode.sonarutils.ValidadorDeMetasDeQualidade http://192.168.1.100:9000 br.edu.faculdadedelta:delta-rent-a-car ${USERNAME} ${PASSWORD}"
+                    sh "java -cp /var/jenkins_home/workspace/Sonar\\ utils/target/sonar-utils-0.0.1-SNAPSHOT-jar-with-dependencies br.com.syncode.sonarutils.ValidadorDeMetasDeQualidade http://192.168.1.100:9000 br.edu.faculdadedelta:delta-rent-a-car ${USERNAME} ${PASSWORD}"
                }
                /* script { 
                   def response = httpRequest 'http://192.168.1.100:9000/api/issues/search?severities=BLOCKER,CRITICAL&componentRoots=br.edu.faculdadedelta:delta-rent-a-car'

@@ -66,5 +66,14 @@ pipeline {
                }
             }
         }
+        
+        stage('Deploy Homolog') {
+            steps {
+               withCredentials([string(credentialsId: 'fdsdev-nexus', variable: 'PASSWORD')]) {
+                   sh 'sshpass -f <(printf '%s\n' rancher%123) ssh -p 2222 root@192.168.1.100';
+                   sh 'ls';
+               }
+            }
+        }
     }
 }

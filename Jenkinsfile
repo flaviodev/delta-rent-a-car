@@ -66,22 +66,5 @@ pipeline {
                }
             }
         }
-        
-        stage('Deploy Homolog') {
-            steps {
-             sshagent (credentials: ['homolog-ssh']) {
-                sh 'ssh -p 922 root@192.168.1.100';
-                script {
-                    try {
-                       sh 'docker rm -f delta-rent-a-car';
-                    } catch (Exception e) {
-                        sh "echo 'não há container para remover'"
-                    }
-                }
-                sh 'docker run -d -p 9888:8888 --name delta-rent-a-car 192.168.1.100:9443/delta-rent-a-car';
-                sh 'exit';
-              }
-            }
-        }
     }
 }

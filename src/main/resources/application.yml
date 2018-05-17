@@ -3,9 +3,9 @@ server:
   
 spring:
   datasource:
-    url: jdbc:postgresql://172.17.0.4:5432/rentacar
-    username: sonar
-    password: sonar
+    url: jdbc:postgresql://192.168.1.100:9432/rentacar
+    username: postgres
+    password: root
     driver-class-name: org.postgresql.Driver
     platform: org.hibernate.dialect.PostgreSQLDialect
 

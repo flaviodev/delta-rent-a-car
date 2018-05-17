@@ -3,7 +3,7 @@ server:
   
 spring:
   datasource:
-    url: jdbc:postgresql://192.168.1.100:5432/rentacar
+    url: jdbc:postgresql://172.17.0.4:5432/rentacar
     username: sonar
     password: sonar
     driver-class-name: org.postgresql.Driver

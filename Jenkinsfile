@@ -31,9 +31,9 @@ pipeline {
                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonar-user',
                     usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
                     sh "java -cp /var/jenkins_home/workspace/Sonar\\ utils/target/sonar-utils-*-jar-with-dependencies.jar br.com.syncode.sonarutils.ValidadorDeMetasDeQualidade http://192.168.1.100:9000 br.edu.faculdadedelta:delta-rent-a-car ${USERNAME} ${PASSWORD}"
+               }
             }
-        }     
-        
+        }             
         stage('Push Nexus') {
             steps {
                withCredentials([string(credentialsId: 'fdsdev-nexus', variable: 'PASSWORD')]) {
@@ -53,8 +53,7 @@ pipeline {
                     }
                 }
                 sh 'docker run -d -p 9888:8888 --name delta-rent-a-car 192.168.1.100:9443/delta-rent-a-car';              
-              }
-          }
+           }
        }
     }
 }

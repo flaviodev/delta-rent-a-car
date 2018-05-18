@@ -53,8 +53,9 @@ pipeline {
                     }
                 }
                 sh 'docker run -d -p 9888:8888 --name delta-rent-a-car 192.168.1.100:9443/delta-rent-a-car';              
-            }
-        }
+              }
+          }
+       }
     }
 }
 

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +22,7 @@ public class Locacao extends EntidadeBase<Long> {
 
 	private static final long serialVersionUID = -3475674544565344461L;
 	
+	@Transient
 	private final SimpleDateFormat FORMATADOR_DATA =  new SimpleDateFormat("dd/MM/yyyy");
 	
 	public Locacao() {

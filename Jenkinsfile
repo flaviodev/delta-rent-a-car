@@ -9,7 +9,7 @@ pipeline {
         stage('Git & Build') {
            steps {
                git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'
-               sh 'mvn clean compile -DskipTests'
+               sh 'mvn clean package -DskipTests'
             }
         }  
         

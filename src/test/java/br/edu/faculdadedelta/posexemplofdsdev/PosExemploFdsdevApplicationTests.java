@@ -15,7 +15,7 @@ public class PosExemploFdsdevApplicationTests {
 	@Test
 	public void teste() {
 	
-		assertEquals(1,1);
+		assertEquals(2,2);
 		
 	}
 

@@ -47,12 +47,12 @@ pipeline {
             steps {
                  script {
                     try {
-                       sh 'docker rm -f delta-rent-a-car';
+                       sh "docker rm -f $(docker ps |grep 'delta-rent-a-car')";
                     } catch (Exception e) {
                         sh "echo 'não há container para remover'"
                     }
                 }
-                sh 'docker run -d -p 9888:8888 --name delta-rent-a-car 192.168.1.100:9443/delta-rent-a-car';              
+                            
            }
        }
     }

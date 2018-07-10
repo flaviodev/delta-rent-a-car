@@ -47,7 +47,7 @@ pipeline {
             steps {
                  script {
                     try {
-                       sh "docker rm -f $(docker ps |grep 'delta-rent-a-car')";
+                       sh "docker rm -f \$(docker ps |grep 'delta-rent-a-car')";
                     } catch (Exception e) {
                         sh "echo 'não há container para remover'"
                     }

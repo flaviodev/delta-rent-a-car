@@ -22,7 +22,7 @@ pipeline {
         stage('Sonar') {
             steps {
                 withSonarQubeEnv('sonar-rancher') {
-                   sh 'mvn sonar:sonar;
+                   sh 'mvn sonar:sonar'
                }
             }
         }           

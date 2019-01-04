@@ -22,9 +22,7 @@ pipeline {
         stage('Sonar') {
             steps {
                 withSonarQubeEnv('sonar-rancher') {
-                   withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
-                      sh 'mvn sonar:sonar -Dsonar.host.url=http://172.16.0.10:9000 -Dsonar.login=${TOKEN}';
-                   }
+                   sh 'mvn sonar:sonar;
                }
             }
         }           

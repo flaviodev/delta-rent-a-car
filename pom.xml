@@ -89,66 +89,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>1.0.0</version>
-				<configuration>
-					<serverId>nexus-container-registry</serverId>
-                                        <registryUrl>https://192.168.1.100:9443</registryUrl>
-					<imageName>${project.artifactId}</imageName>
-					<baseImage>fabric8/java-centos-openjdk8-jre:latest</baseImage>
-					<resources>
-						<resource>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
-						</resource>
-					</resources>
-					<env>
-						<LANG>en_US.UTF-8</LANG>
-						<AB_OFF>true</AB_OFF>
-						<JAVA_OPTIONS>-XX:+UseConcMarkSweepGC -Dfile.encoding=UTF-8</JAVA_OPTIONS>
-						<JAVA_MAX_MEM_RATIO>70</JAVA_MAX_MEM_RATIO>
-						<JAVA_APP_DIR>/</JAVA_APP_DIR>
-						<JAVA_APP_JAR>${project.build.finalName}.jar</JAVA_APP_JAR>
-						<TZ>America/Sao_Paulo</TZ>
-					</env>
-					<exposes>
-						<expose>8888</expose>
-					</exposes>
-				</configuration>
-				<executions>
-					<execution>
-						<id>build-image</id>
-						<phase>install</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>tag-image</id>
-						<phase>install</phase>
-						<goals>
-							<goal>tag</goal>
-						</goals>
-						<configuration>
-							<image>${project.artifactId}</image>
-							<newName>192.168.1.100:9443/${project.artifactId}</newName>
-						</configuration>
-					</execution>
-					<execution>
-						<id>push-image</id>
-						<phase>install</phase>
-						<goals>
-							<goal>push</goal>
-						</goals>
-						<configuration>
-							<imageName>192.168.1.100:9443/${project.artifactId}</imageName>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			
 			<plugin>
 				<groupId>org.jacoco</groupId>

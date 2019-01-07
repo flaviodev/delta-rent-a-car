@@ -1,10 +1,14 @@
 pipeline {
+    
     agent any
+    
     tools {
         maven 'mvn3'
         jdk 'jdk8'
     }
+    
     stages {
+        
         stage('Git & Build') {
            steps {
                git branch: 'master', url: 'https://github.com/flaviodev/delta-rent-a-car.git'

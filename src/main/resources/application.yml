@@ -8,6 +8,10 @@ spring:
     password: root
     driver-class-name: org.postgresql.Driver
     platform: org.hibernate.dialect.PostgreSQLDialect
+  jpa:
+    open-in-view: true
+    show-sql: false
+    generate-ddl: true
 
 
 pagina-inicial: home

@@ -8,6 +8,6 @@ ENV TZ=America/Sao_Paulo
 VOLUME /tmp
 ADD /target/*.jar /delta-rent-a-car.jar
 
-EXPOSE 8080
+EXPOSE 8888
 
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom -jar /delta-rent-a-car.jar" ]

@@ -10,4 +10,4 @@ if [ "$(sudo docker ps -a | grep delta-rent-a-car)" ]; then
    sudo docker rm -f delta-rent-a-car
 fi
 
-sudo docker run -d --name delta-rent-a-car -p 8888:8080 delta-rent-a-car
+sudo docker run -d --name delta-rent-a-car -p 8888:8888 delta-rent-a-car

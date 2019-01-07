@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
     tools {
@@ -13,49 +12,31 @@ pipeline {
             }
         }  
         
-        stage('Testes') {
+        stage('Tests & Install') {
            steps {
-               sh 'mvn test'
+               sh 'mvn install'
             }
-        } 
+        }
         
         stage('Sonar') {
             steps {
-                withSonarQubeEnv('sonar-rancher') {
-                   withCredentials([string(credentialsId: 'token-sonar-rancher', variable: 'TOKEN')]) {
-                      sh 'mvn sonar:sonar -Dsonar.host.url=http://192.168.1.100:9000 -Dsonar.login=${TOKEN}';
-                   }
-               }
-                
-               sleep time: 20, unit: 'SECONDS'
-               withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'sonar-user',
-                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "java -cp /var/jenkins_home/workspace/Sonar\\ utils/target/sonar-utils-*-jar-with-dependencies.jar br.com.syncode.sonarutils.ValidadorDeMetasDeQualidade http://192.168.1.100:9000 br.edu.faculdadedelta:delta-rent-a-car ${USERNAME} ${PASSWORD}"
+                withSonarQubeEnv('sonar') {
+                   sh 'mvn sonar:sonar'
                }
             }
-        }             
-        stage('Push Nexus') {
+        }   
+        
+        stage('Deploy') {
             steps {
-               withCredentials([string(credentialsId: 'fdsdev-nexus', variable: 'PASSWORD')]) {
-                   sh 'cp -f settings.xml /var/jenkins_home/.m2';
-                   sh 'mvn install -DskipTests -Dnexus.password=${PASSWORD}';
-               }
+                script {
+                    sshPublisher(publishers: [sshPublisherDesc(configName: 'server-producao', 
+                        transfers: [
+                            sshTransfer(
+                              sourceFiles: "target/*.jar,Dockerfile,build-and-run-docker.sh",
+                              execCommand: "sudo chmod 777 build-and-run-docker.sh && ./build-and-run-docker.sh && rm -rf target && rm -rf Dockerfile && rm -rf build-and-run-docker.sh")
+                        ])])
+                }        
             }
-        }
-
-        stage('Deploy Homologação') {
-            steps {
-                 script {
-                    try {
-                       sh "docker rm -f \$(docker ps |grep 'delta-rent-a-car')";
-                    } catch (Exception e) {
-                        sh "echo 'não há container para remover'"
-                    }
-                }
-                            
-           }
-       }
-    }
+        }        
+    }   
 }
-
-
